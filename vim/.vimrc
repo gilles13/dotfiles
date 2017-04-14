@@ -151,3 +151,8 @@ let g:slime_default_config = {"socket_name": "default", "target_pane": "1"}
 
 " TO READ
 " http://learnvimscriptthehardway.stevelosh.com/
+
+" qques lignes rajoutées
+" 
+" A
+" B
