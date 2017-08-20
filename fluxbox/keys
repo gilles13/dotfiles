@@ -13,7 +13,7 @@
 
 # TOUCHE ALT
 # current window commands
-Mod1 F1 :Exec xterm
+Mod1 F1 :Exec uxterm
 Mod1 F2 :Exec thunar
 Mod1 F3 :Exec iceweasel
 Mod1 F4 :Close
@@ -34,6 +34,12 @@ Mod4 s :ExecCommand killall conky && conky -c ~/.conkyrcGillesShortcut
 Mod4 b :ExecCommand killall conky && conky -c ~/.conkyrcGilles
 # See desktop
 Mod4 d :ShowDesktop
+# launch rstudio
+Mod4 r :ExecCommand rstudio
+# verrouillage écran
+Mod4 l :ExecCommand xscreensaver-command -select 101
+# launch urxvt
+Mod4 u :ExecCommand urxvt
 # go to a specific tab in the current window
 Mod4 1 :Tab 1
 Mod4 2 :Tab 2
