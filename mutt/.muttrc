@@ -1,0 +1,101 @@
+# locales FR pour les nom des jours et mois
+set locale="fr_FR"
+
+# Format de date
+set date_format="%A %d %b %Y à %H:%M:%S (%Z)"
+
+set editor = 'vim'
+#set editor="vim '+:7'" # vim for editing, and move marker to line 7
+set from = "gillesfidani@gmail.com"
+set realname = "Gilles FIDANI"
+set smtp_url = "smtp://gillesfidani@smtp.gmail.com:587/"
+set imap_user = "gillesfidani@gmail.com"
+set folder = "imaps://imap.gmail.com:993"
+set spoolfile = "+INBOX"
+set record = "+[Gmail]/sent"
+set postponed = "+[Gmail]/drafts"
+set trash = "+[Gmail]/trash"
+set header_cache =~/.mutt/cache/headers
+set message_cachedir =~/.mutt/cache/bodies
+set certificate_file =~/.mutt/certificates
+set move = no
+#set imap_force_ssl = yes
+set imap_keepalive = 900
+set mail_check = 120
+ 
+# encrypted IMAP/SMTP passwords
+source "gpg -d ~/.mutt/password.gpg |"
+
+# touches shift+g pour rapatrier les nouveaux messages
+bind index G imap-fetch-mail
+
+# sidebar
+# set up the sidebar, default not visible 
+set sidebar_width=12 
+set sidebar_visible=yes 
+set sidebar_delim='|' 
+set sidebar_sort=yes 
+
+# which mailboxes to list in the sidebar 
+mailboxes =INBOX 
+
+# color of folders with new mail 
+color sidebar_new yellow default 
+
+# ctrl-n, ctrl-p to select next, prev folder 
+# # ctrl-o to open selected folder 
+bind index \CP sidebar-prev 
+bind index \CN sidebar-next 
+bind index \CO sidebar-open 
+bind pager \CP sidebar-prev 
+bind pager \CN sidebar-next 
+bind pager \CO sidebar-open 
+
+##################
+# Les Bounces sont les emails de non-délivrance émis par des serveurs de mails.
+# # Remap bounce-message function to "B" 
+# bind index B bounce-message
+######################
+
+
+
+##################################
+# gestion des contacts via abook #
+##################################
+
+set query_command= "abook --mutt-query '%s'"
+macro index,pager A "<pipe-message>abook --add-email-quiet<return>" 
+
+#  The first line sets up the link to abook for extracting addresses from your addressbook, and the second one creates a macro so that when you press 'A' just about anywhere, the email address of that message's sender will be sent to abook.
+#
+#  Lastly, get used to using "query" functionality instead of alias functionality, as mutt treats them differently. Let's say you start a new message by pressing 'm' in the index view. Mutt presents you with "To: " and waits for you to enter the address of your recipient. Normally you'd press tab at this point for a quick search of the aliases in your alias file. Instead, now you press Control-T in order to do the same thing, but via a query to abook instead of your alias file. Put the cursor over the person you'd like to write and press enter to start the message. If you'd like to several people from the abook, tag them using the 't' key and then press ;m to have them all placed on the "To:" line of your message. You can add additional queries to the same line by pressing 'A.' 
+#
+#  For example, type Control-t to start a query, "Do" to search for names that start with "Do." You select a few by pressing 't' and then press 'A' to search for additional names using a different criteria. Press "Ri" to search for names that start with "Ri" and select them in the same way. When you've tagged everyone you'd like to mail, press ";m" to send all those addresses to the "To: " line. Repeat this process for the "Cc: " line and so on. 
+#
+#   Some people like to use the abook and the alias file in parallel, keeping good/important addresses in the abook and using the alias file to collect addresses from mail they read. This is a bit inelegant since it forces you to manually synchronize from time to time, but has its advantages, since, for one, the alias file allows you to include a mailing list composed of other names present in the alias file, while abook does not. Nothing is simple.
+
+# couleurs
+color attachment magenta default            # attachments
+color body brightred default "(ftp|http)://[^ ]+"       # point out URLs
+color body brightcyan default [-a-z_0-9.]+@[-a-z_0-9.]+ # e-mail addresses
+color bold brightblue default               # boldface text
+color error brightwhite red                 # error messages
+color hdrdefault magenta default            # default color of message header
+color header brightmagenta default ^(From): # From and Subject header
+color header brightwhite default ^(Subject): # From and Subject header
+color header brightwhite default ^(Date): # Date header
+color header white default ^(In-Reply-To):
+color indicator brightred default                   # indicator bar
+color markers brightblue default            # wrapped line markers (+)
+color message brightblack green             # status messages
+color normal default default                # default
+color quoted yellow default                 # quoted text, 1st quote level
+color quoted1 green default                 # quoted text, 2nd quote level
+color quoted2 brightblue default            # quoted text, 3rd quote level
+color quoted3 blue default                  # quoted text, 4th quoet level
+color search black yellow                   # matched search patterns in pager
+color signature red default                 # the signature (after sigdashes)
+color status default blue                   # status lines
+color tilde brightblue default              # ``~'' used to pad blank lines
+color tree green default                    # thread tree in the index menu
+color underline brightgreen default         # underlined text
