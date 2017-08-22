@@ -1,0 +1,123 @@
+background no
+update_interval 1
+
+override_utf8_locale yes
+
+double_buffer yes
+no_buffers yes
+
+# important pour couper les lignes des flux rss
+text_buffer_size 2048
+
+mail_spool $MAIL
+
+# Window specifications #
+
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
+
+minimum_size 300
+maximum_width 400
+max_text_width 50
+
+gap_x 15
+gap_y 15
+
+# Position #
+#alignment top_left
+alignment top_right
+#alignment bottom_left
+#alignment bottom_right
+
+# Graphics settings #
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+# Text settings #
+use_xft yes
+xftfont Sans:size=8
+xftalpha 0.8
+
+# Misc settings #
+#uppercase no
+if_up_strictness address
+temperature_unit celsius
+
+# Colors settings #
+default_color FFFFFF # blanc
+color9 D60650
+color2 CE0056
+color3 CA005D
+color4 CE0058
+color5 A80030
+color6 blue
+color8 green
+color9 yellow
+
+# CPU settings #
+cpu_avg_samples 4 # set to 1 to disable averaging
+
+TEXT
+${font Jura:size=16}${alignc}${color9}${time %d %B %Y - %H:%M}${color}${font}
+
+${font Jura:size=10}${color9}System info${color}${font}
+${hr}
+#Sysname:$alignr$sysname
+#Host:$alignr$nodename
+#Arch:$alignr$machine
+#Kernel:$alignr$kernel
+Uptime:$alignr$uptime
+RAM:$alignr$mem/$memmax
+#Swap usage:$alignr$swap/$swapmax
+#Disk usage:$alignr${fs_used /}/${fs_size /}
+CPU usage:$alignr${cpu cpu0}%
+#CPU1 usage:$alignr${cpu cpu1}%
+#PU2 usage:$alignr${cpu cpu2}%
+#CPU3 usage:$alignr${cpu cpu3}%
+#CPU4 usage:$alignr${cpu cpu4}%
+Battery (% charge) : $alignr${battery_percent BAT1}%
+Battery (remaining time) : $alignr${battery_time BAT1}
+#Temperature PC: $alignr${acpitemp}°C
+
+${font Jura:size=10}${color9}Network${color}${font} 
+${hr}
+${if_up wlan0}Interface: $alignr Wireless
+IP address: $alignr ${addr wlan0}
+#SSID: $alignr ${wireless_essid wlan0}
+Speed: $alignr ${wireless_bitrate wlan0}
+Connection quality: $alignr ${wireless_link_qual_perc wlan0}%
+Inbound (KiB/s) ${downspeedf wlan0} $alignr Total: ${totaldown wlan0}
+Outbound (KiB/s) ${upspeedf wlan0} $alignr Total: ${totalup wlan0}
+${endif}${if_up eth0}Interface: $alignr Wired
+IP address: $alignr ${addr eth0}
+Inbound (KiB/s) ${downspeedf eth0} $alignr Total: ${totaldown eth0}
+Outbound (KiB/s) ${upspeedf eth0} $alignr Total: ${totalup eth0}
+${endif}${if_up usb0}Interface: $alignr Mobile
+IP address: $alignr ${addr usb0}
+Inbound (KiB/s) ${downspeedf usb0} $alignr Total: ${totaldown usb0}
+Outbound (KiB/s) ${upspeedf usb0} $alignr Total: ${totalup usb0}${endif}
+${font Jura:size=10}${color9}Disk${color}${font}
+${hr}
+${exec df -h | grep "/dev/sd" | awk '{ printf "%s of %s \t : %s\n", $5, $2, $6 }' }
+
+#${font Jura:size=10}${color9}Rss${color}${font}
+#${hr}
+#${rss http://feeds.feedburner.com/RBloggers?format=xml 1 item_titles 3}
+#
+${font Jura:size=10}${color9}Reminder${color}${font}
+${hr}
+#${pre_exec rem -s2 | cut -d' ' -f1,6-}
+${execpi 1800 /home/gilles/scripts/colorizeRemind.sh}
+
+#CALENDRIER ${time %B %Y}
+#${hr}
+#${font Inconsolata:size=8}${exec cal -h | sed '1d'}${font}
+${if_running mocp}${font Jura:size=10}${color9}Music${color}${font}
+${hr}
+${execi 10 mocp -Q '%file\n%song\n%artist\n%album'}${endif}
+#${execbar echo $((`mocp -Q %cs'*100/'%ts`))}${endif}
+#${if_running mocp}Time left: $alignr ${moc_timeleft}

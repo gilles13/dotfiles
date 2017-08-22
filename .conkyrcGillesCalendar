@@ -1,0 +1,49 @@
+background no
+update_interval 1
+override_utf8_locale yes
+double_buffer yes
+no_buffers yes
+
+# Window specifications #
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
+
+gap_x 15
+gap_y 15
+
+# Position #
+alignment bottom_left
+
+# Graphics settings #
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+# Text settings #
+color1 white #Month color
+color2 white #Year  color
+color3 white #Weekdays color
+color4 FFE3A0 #Current weekday color
+color5 white  #Days of month color
+color6 ff8a00 #Current day color
+use_xft yes
+xftfont DejaVu Sans Mono:size=20
+xftalpha 0.8
+
+TEXT
+##################
+##     TIME    ##
+##################
+#${font LCD2:bold:size=75}${alignr 8}${color6}${time %k}${voffset -20}:${voffset 20}${time %M}${font}
+#${color4}${hr 2}${color1}
+
+##################
+##   CALENDAR   ##
+##################
+${color1}${time %B} ${color2}${time %Y}
+#${execpi 60 echo '${color3}Su Mo Tu We Th Fr Sa${color5}' | sed  's:'"$(date +%a |cut -c 1-2)"':\${color4}&\${color3}:'}
+${execpi 60 echo '${color3}Di Lu Ma Me Je Ve Sa${color5}' | sed  's:'"$(date +%a |cut -c 1-2)"':\${color4}&\${color3}:'}
+${execpi 60 DJS=`date +%_d`; cal -h | tail -n+3 |sed s:"\(^\|[^0-9]\)$DJS"'\b':'\1${color6}'"$DJS"'${color5}':}

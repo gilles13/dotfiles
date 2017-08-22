@@ -1,0 +1,80 @@
+background no
+update_interval 1
+
+override_utf8_locale yes
+
+double_buffer yes
+no_buffers yes
+
+# important pour couper les lignes des flux rss
+text_buffer_size 2048
+
+# Window specifications #
+
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
+
+minimum_size 300
+maximum_width 350
+#max_text_width 45
+
+gap_x 15
+gap_y 15
+
+# Position #
+alignment top_left
+#alignment top_right
+#alignment bottom_left
+#alignment bottom_right
+
+# Graphics settings #
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders yes
+
+# Text settings #
+use_xft yes
+xftfont Sans:size=8
+xftalpha 0.8
+
+# Misc settings #
+#uppercase no
+if_up_strictness address
+temperature_unit celsius
+
+# Colors settings #
+default_color FFFFFF # blanc
+color1 D60650
+color2 CE0056
+color3 CA005D
+color4 CE0058
+color5 A80030
+color6 blue
+color7 yellow
+color8 green
+color9 00FF00          #vert
+
+# CPU settings #
+cpu_avg_samples 4 # set to 1 to disable averaging
+
+TEXT
+${font Jura:size=10}${color7}Raccourcis système${color}${font}
+${hr}
+Alt+F1:$alignr Lancer Terminal
+Alt+F2:$alignr Lancer Gestionnaire fichier
+Alt+F3:$alignr Lancer Iceweasel
+Alt+F4:$alignr Fermer la fenêtre active
+Ctrl+Alt+p:$alignr Screenshot
+Ctrl+r:$alignr Lancer RStudio
+Win+TAB:$alignr Switch tmux window
+Win+b:$alignr Conky base
+Win+s:$alignr Conky shortcut
+Win+m:$alignr Conky Memory+CPU
+
+${font Jura:size=10}${color7}Raccourcis VIM${color}${font}
+${hr}
+Alt+n:$alignr Next buffer
+Alt+p:$alignr Previous buffer
