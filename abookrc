@@ -1,0 +1,36 @@
+# Options générales:
+#
+# Enregistrement automatique en quittant:
+set autosave = true
+# Conserver les champs même non définis (utile dans le cas d'un import):
+set preserve_fields = all
+# Afficher toutes les adresses mail d'un contact dans la vue principale (perso, pro, etc.):
+set show_all_emails = true
+# Définir le logiciel utilisé pour ouvrir une URL (un site web d'un contact par exemple):
+set www_command = firefox
+# style d'adresse
+set address_style=eu
+# Selon la config de votre terminal il peut être utile de forcer l'utilisation de caractères ASCII:
+# set use_ascii_only = true
+# Eviter de saisir 2 fois une même adresse mail par mégarde:
+set add_email_prevent_duplicates = true
+# Afficher le curseur:
+set show_cursor = true
+# Trier par nom de famille
+set sort_field=name
+# Fixer le format d'index
+set index_format= {name:30} {mobile:30|phone|workphone} {email:30}
+
+# Champs personnalisés:
+# field first_name = Prenom, string
+# field last_name = Nom, string
+field birthday = Anniversaire, date
+
+# Affichage
+view CONTACT = name,  email
+view ADRESSE = address, city, zip, country
+view PHONE = mobile, phone, workphone
+view AUTRE = birthday, url
+ 
+# Définition de la commande pour Mutt:
+set mutt_command = mutt -y
