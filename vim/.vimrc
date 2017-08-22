@@ -10,6 +10,7 @@ set laststatus=2                " display status line always
 set noshowmode                  " remove default mode indicator
 set wildmenu                    " command line completion
 set wildmode=list:longest,full  " command line completion
+set relativenumber							" numeros de ligne relatifs
 
 " APPARENCE
 set t_Co=256                    " set terminal color to 256
@@ -46,8 +47,8 @@ filetype on                     " active la détection automatique de fichier
 filetype plugin on              " active les plugin lors de la détection auto des fichiers
 filetype indent on              " indentation auto en fonction du type de fichier
 
-let mapleader="\\"
-let maplocalleader=","
+let mapleader=","
+let maplocalleader="\\"
 
 " PERSONNAL KEYMAPS
 
@@ -137,22 +138,9 @@ let g:airline_symbols.linenr = ''
 let twitvim_enable_perl = 1
 let twitvim_browser_cmd = 'firefox'
 
-" VIMTUX
-" let g:BASH_Ctrl_j='off'
-" let g:C_Ctrl_j='off'
-" vmap <C-j> <Plug>SendSelectionToTmux
-" nmap <C-j> <Plug>NormalModeSendToTmux 
-" nmap <C-c>r <Plug>SetTmuxVar
-
-" VIM-SLIME
-let g:slime_target = "tmux"
-let g:slime_paste_file = "$HOME/.slime_paste"
-let g:slime_default_config = {"socket_name": "default", "target_pane": "1"}
+" SLIMUX
+map <Leader>s :SlimuxREPLSendLine<CR>
+vmap <Leader>s :SlimuxREPLSendSelection<CR>
 
 " TO READ
 " http://learnvimscriptthehardway.stevelosh.com/
-
-" qques lignes rajoutées
-" 
-" A
-" B
