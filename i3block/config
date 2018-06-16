@@ -1,0 +1,162 @@
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+# pour les fonts awesome, voir : http://fontawesome.io/cheatsheet/
+#
+# List of valid properties:
+#
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+command=/usr/share/i3blocks/$BLOCK_NAME
+separator_block_width=15
+markup=none
+
+# [clickme]
+# full_text=Click me!
+# command=echo hello $BLOCK_BUTTON
+# min_width=button=1 x=1280 y=800
+# align=left
+# separator=true
+
+# [clickme2]
+# full_text=Click me!
+# command=notify-send "Button $BLOCK_BUTTON ($BLOCK_X, $BLOCK_Y)"
+
+[Mocp]
+# label=♪
+label=
+# fa-music [&#xf001;]
+command=/usr/share/i3blocks/mocp2
+instance=40
+interval=10
+color=#666666
+
+# Volume indicator
+#
+# The first parameter sets the step (and units to display)
+# The second parameter overrides the mixer selection
+# See the script for details.
+[volume]
+label=VOL
+label=
+# fa-volume-up [&#xf028;]
+instance=Master
+# instance=PCM
+interval=once
+signal=10
+color=#666666
+
+# # Memory usage
+#
+# # The type defaults to "mem" if the instance is not specified.
+# [memory]
+# label=MEM
+# separator=false
+# interval=30
+
+# [memory]
+# label=SWAP
+# instance=swap
+# separator=false
+# interval=30
+
+# # Disk usage
+#
+# # The directory defaults to $HOME if the instance is not specified.
+# # The script may be called with a optional argument to set the alert
+# # (defaults to 10 for 10%).
+# [disk]
+# # label=
+# label=
+# # fa-database [&#xf1c0;]
+# # fa-hdd-o [&#xf0a0;] 
+# #instance=/mnt/data
+# interval=60
+# color=#666666
+
+# Network interface monitoring
+#
+# If the instance is not specified, use the interface used for default route.
+# The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
+
+# [iface]
+# label=
+# # fa-wifi [&#xf1eb;]
+# instance=wlan0
+# color=#666666
+# interval=10
+# separator=false
+
+# [wifi]
+# instance=wlp3s0
+# interval=10
+# separator=false
+
+# [bandwidth]
+# instance=eth0
+# interval=5
+
+# CPU usage
+# The script may be called with -w and -c switches to specify thresholds,
+# see the script for details.
+
+# [cpu_usage]
+# label=
+# # fa-microchip [&#xf2db;]
+# interval=10
+# min_width=CPU:100.00%
+# separator=false
+# color=#666666
+
+# [load_average]
+# interval=10
+
+# Battery indicator
+# The battery instance defaults to 0.
+
+# [battery]
+# label=BAT
+# label=⚡
+# # instance=1
+# interval=30
+
+# Date Time
+
+[time]
+# label=
+# fa-calendar [&#xf073;]
+command=date '+%d-%m-%Y %H:%M'
+interval=5
+color=#666666
+
+# Key indicators
+# Add the following bindings to i3 config file:
+# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+[keyindicator]
+instance=CAPS
+interval=once
+signal=11
+
+[keyindicator]
+instance=NUM
+interval=once
+signal=11
