@@ -1,18 +1,85 @@
-! Use a nice truetype font and size by default... 
-xterm*faceName: Meslo LG L for Powerline:style=Regular
-xterm*faceSize: 8
-xterm*utf: on
-xterm*utf8: on
+! vim: ft=xdefaults
+! .Xressource
+! author: Gilles Fidani
+! last update: 2018-01-20
 
+! XTerm config --- {{{
+XTerm*faceName:Meslo LG L for Powerline:style=Regular
+XTerm*faceSize:8
+XTerm*utf:on
+XTerm*utf8:on
+Xterm*ColorBDMode:true
+Xterm*colorBD:rgb:82/a4/d3
 ! Every shell is a login shell by default (for inclusion of all necessary environment variables)
-xterm*loginshell: true
-
+XTerm*loginshell:true
 ! Number of line of scrollback...
-xterm*savelines: 16384
-
+XTerm*savelines:16384
 ! double-click to select whole URLs :D
-xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+XTerm*charClass:33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+XTerm*foreground:green
+XTerm*background:black
+XTerm*HiForeColor:white
+XTerm*HiBackColor:#c06077
+XTerm*ScrollBar:false
+!XTerm*rightScrollBar: true
+! terminal scroll down anytime key is pressed
+XTerm*ScrollKey:true
+! stop output to terminal from jumping down to bottom of scroll again
+!XTerm*scrollTtyOutput: false
+! enable selectToClipboaad
+XTerm*selectToClipboard:true
+XTerm*fastScroll:true
+XTerm.metaSendsEscape:false
+! --- }}}
 
+! urxvt config --- {{{
+URxvt*termName: rxvt-unicode
+URxvt*font: xft:Meslo LG L for Powerline:style=Regular:size=8
+URxvt*fontBold: xft:Meslo LG L for Powerline:style=Bold:size=8
+! URxvt.letterSpace: -5
+URxvt*secondaryScreen: 1
+URxvt*secondaryScroll: 0
+URxvt*geometry:70x21
+! clickable url
+URxvt*perl-ext-common: default,matcher
+URxvt*url-launcher: /usr/bin/xdg-open
+URxvt*matcher.button: 1
+URxvt*matcher.rend.0: Uline Bold fg5
+! colors
+URxvt*foreground: green
+URxvt*background: rgba:0a00/0f00/1400/ee00
+URxvt*color12: rgb:5c/5c/ff
+URxvt*transparent: true
+! URxvt*tintColor: green
+URxvt*shading: 20
+! scroll
+URxvt*scrollBar:false
+URxvt*scrollBar_right:false
+URxvt*scrollstyle:rxvt
+! scroll to bottom when a non-special key pressed.
+URxvt*scrollTtyKeypress:true
+! login shell
+! for tmux, this is super-helpful and causes your bash login files like ~/.bash_profile to be loaded
+URxvt*loginShell:  true
+! --- }}}
+
+! rofi config --- {{{
+rofi.color-enabled: true
+rofi.color-window: argb:e8222D32,argb:00292f37,#EBCB8B
+rofi.color-normal: argb:02000000,#D8DEE9,argb:02000000,argb:02000000,#EBCB8B
+rofi.color-active: argb:02000000,#D8DEE9,argb:02000000,argb:02000000,#D8DEE9
+rofi.color-urgent: argb:02000000,#D8DEE9,argb:02000000,argb:02000000,#D8DEE9
+rofi.sidebar-mode: true
+rofi.separator-style: solid
+rofi.hide-scrollbar: true
+rofi.lines: 12
+rofi.width: 50
+rofi.padding: 16
+rofi.bw: 1
+rofi.show-icons: true
+! --- }}}
+
+! Colors config --- {{{
 ! colors
 !1. directory
 !2. symbolic link
@@ -25,53 +92,4 @@ xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
 !9. executable with setgid bit set
 !10. directory writable to others, with sticky bit
 !11. directory writable to others, without sticky bit
-!
-xterm*foreground: green
-!xterm*background: black
-xterm*background: rgb:208/208/208
-xterm*color0: black
-xterm*color1: blue
-!xterm*color2: rgb:00/a8/00
-!xterm*color3: rgb:a8/54/00
-!xterm*color4: rgb:00/00/a8
-!xterm*color5: rgb:a8/00/a8
-!xterm*color6: rgb:00/a8/a8
-!xterm*color7: rgb:a8/a8/a8
-!xterm*color8: rgb:54/54/54
-!xterm*color9: rgb:fc/54/54
-!xterm*color10: rgb:54/fc/54
-!xterm*color11: rgb:fc/fc/54
-!xterm*color12: rgb:54/54/fc
-!xterm*color13: rgb:fc/54/fc
-!xterm*color14: rgb:54/fc/fc
-!xterm*color15: rgb:fc/fc/fc
-
-! scrollBar 
-!xterm*ScrollBar: true
-xterm*ScrollBar: false
-
-! scrollBar on the right
-!xterm*rightScrollBar: true
-
-! terminal scroll down anytime key is pressed
-xterm*ScrollKey: true
-
-! stop output to terminal from jumping down to bottom of scroll again
-!xterm*scrollTtyOutput: false
-
-! enable selectToClipboaad
-xTerm*selectToClipboard:true
-
-! xmessage
-!
-! Xmessage*font: -*-dejavu sans mono-*-*-*-*-*-140-*-*-*-*-*-*
-! Xmessage.geometry: -0+0
-Xmessage.center: true
-Xmessage.Form.Command.shapeStyle: Rectangle
-Xmessage.Form.okay.foreground: green
-Xmessage.Form.cancel.foreground: red
-Xmessage.Form.?.foreground: #a0c0e0
-Xmessage*background: black
-Xmessage*foreground: #a0c0e0
-Xmessage*defaultButton: okay
-Xmessage*international: true
+! --- }}}
