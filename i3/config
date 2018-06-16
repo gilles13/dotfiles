@@ -1,0 +1,222 @@
+# vim: ft=config
+# i3 config file (v4) Gilles
+# MAJ : 2018-01-19
+
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+# Définition de variables --- {{{
+
+# Modifier
+# mod1 == Alt, mod4 == Windows key
+set $mod Mod1
+
+set $term urxvt
+
+# Workspace
+set $ws1 "1 "
+set $ws2 "2 "
+set $ws3 "3 "
+set $ws4 "4 "
+set $ws5 "5 "
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+# --- }}}
+
+# Apparence --- {{{
+font pango:DejaVu Sans 8, FontAwesome 10
+# pour toutes les fenêtres
+for_window [class=".*"] border pixel 4
+for_window [class=".*"] title_format " %title"
+# --- }}}
+
+# Appli lancées au démarrage du système --- {{{
+# exec_always == réexecute la commande lors des reload
+# exec --no-startup-id compton --backend glx
+exec --no-startup-id pulseaudio -D
+exec --no-startup-id xscreensaver -nosplash
+exec_always --no-startup-id feh --bg-max ~/Images/wallpapers/Gryphart/ruby_boneyard_concept_d_by_gryphart.jpg
+# --- }}}
+
+# Touchpad --- {{{
+exec --no-startup-id synclient TapButton1=1
+exec --no-startup-id synclient HorizEdgeScroll=1
+exec --no-startup-id synclient VertEdgeScroll=1
+# --- }}}
+
+# Assign window behavior --- {{{
+# déterminer la classe d'une fenêtre : xprop | grep CLASS
+assign [class="URxvt|XTerm"] $ws1
+assign [class="Chromium|Firefox"] $ws2
+assign [class="Thunar"] $ws3
+assign [class="vlc"] $ws4
+# little hack, voir : https://www.reddit.com/r/i3wm/comments/4lts2y/clementine_and_spotify_client/
+for_window [class="Spotify"] move to workspace $ws5
+assign [class="mame"] $ws6
+assign [class="Mednaffe"] $ws6
+assign [class="Evince"] $ws7
+# --- }}}
+
+# Assign floating windows --- {{{
+for_window [class="feh"] floating enable
+for_window [class="R_x11"] floating enable
+# --- }}}
+
+# Keybinding --- {{{
+
+bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# Mes remaps
+bindsym Mod4+Tab exec tmux next-window
+bindsym Mod4+Shift+Tab exec tmux previous-window
+bindsym Mod4+n exec tmux select-pane -t :.+
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
+bindsym $mod+F1 exec firefox-esr
+bindsym $mod+F2 exec thunar
+bindsym $mod+F3 exec rstudio
+bindsym $mod+F4 kill
+bindsym $mod+F5 exec spotify
+bindsym $mod+F7 exec qgis
+# screenshot
+bindsym --release Print exec --no-startup-id "import -window root ~/Images/screen-$(date +%Y-%m-%d-%H:%M:%S).jpg"
+
+# start a terminal
+bindsym $mod+Return exec $term
+
+# kill focused window
+bindsym $mod+Shift+a kill
+
+# start dmenu (a program launcher)
+bindsym $mod+d exec --no-startup-id rofi -show run
+
+# change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+m move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+z layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+q focus parent
+
+# focus the child container
+# bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+ampersand workspace $ws1
+bindsym $mod+eacute workspace $ws2
+bindsym $mod+quotedbl workspace $ws3
+bindsym $mod+apostrophe workspace $ws4
+bindsym $mod+parenleft workspace $ws5
+bindsym $mod+minus workspace $ws6
+bindsym $mod+egrave workspace $ws7
+bindsym $mod+underscore workspace $ws8
+bindsym $mod+ccedilla workspace $ws9
+bindsym $mod+agrave workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+ampersand move container to workspace $ws1
+bindsym $mod+Shift+eacute move container to workspace $ws2
+bindsym $mod+Shift+quotedbl move container to workspace $ws3
+bindsym $mod+Shift+apostrophe move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+minus move container to workspace $ws6
+bindsym $mod+Shift+egrave move container to workspace $ws7
+bindsym $mod+Shift+underscore move container to workspace $ws8
+bindsym $mod+Shift+ccedilla move container to workspace $ws9
+bindsym $mod+Shift+agrave move container to workspace $ws10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exit
+# --- }}}
+
+# resize window --- {{{
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym m resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+# --- }}}
+
+# move window --- {{{
+mode "moveit" {
+    bindsym Up move up 20px
+    bindsym Left move left 20px
+    bindsym Down move down 20px
+    bindsym Right move right 20px
+    bindsym Mod4+m mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym Mod4+m focus floating; mode "moveit"
+# --- }}}
+
+# Start i3bar to display a workspace bar --- {{{
+bar {
+				position       bottom
+				status_command i3blocks
+				font pango:UW Ttyp0 Regular 7, FontAwesome 10
+}
+# --- }}}
