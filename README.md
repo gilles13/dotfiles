@@ -12,4 +12,9 @@ Pour des explications sur les différentes façon de gérer ses fichiers de conf
 
 [http://blog.smalleycreative.com/tutorials/using-git-and-github-to-manage-your-dotfiles/](http://blog.smalleycreative.com/tutorials/using-git-and-github-to-manage-your-dotfiles/)
 
+## Historique de ma config
+
+	- 2021 - dwm
+	- 2020 - i3
+	- 2019 - Fluxbox
 
