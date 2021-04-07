@@ -1,83 +1,41 @@
 ! vim: ft=xdefaults
 ! .Xressource
 ! author: Gilles Fidani
-! last update: 2018-01-20
+! last update: 2021-04-06
 
-! XTerm config --- {{{
-XTerm*faceName:Meslo LG L for Powerline:style=Regular
-XTerm*faceSize:8
-XTerm*utf:on
-XTerm*utf8:on
-Xterm*ColorBDMode:true
-Xterm*colorBD:rgb:82/a4/d3
-! Every shell is a login shell by default (for inclusion of all necessary environment variables)
-XTerm*loginshell:true
-! Number of line of scrollback...
-XTerm*savelines:16384
-! double-click to select whole URLs :D
-XTerm*charClass:33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
-XTerm*foreground:green
-XTerm*background:black
-XTerm*HiForeColor:white
-XTerm*HiBackColor:#c06077
-XTerm*ScrollBar:false
-!XTerm*rightScrollBar: true
-! terminal scroll down anytime key is pressed
-XTerm*ScrollKey:true
-! stop output to terminal from jumping down to bottom of scroll again
-!XTerm*scrollTtyOutput: false
-! enable selectToClipboaad
-XTerm*selectToClipboard:true
-XTerm*fastScroll:true
-XTerm.metaSendsEscape:false
-! --- }}}
-
-! urxvt config --- {{{
-URxvt*termName: rxvt-unicode
-URxvt*font: xft:Meslo LG L for Powerline:style=Regular:size=8
-URxvt*fontBold: xft:Meslo LG L for Powerline:style=Bold:size=8
-! URxvt.letterSpace: -5
+URxvt*termName: rxvt-unicode-256color
+URxvt*font: xft:Liberation Mono:size=10,xft:Symbola:pixelsize=12,xft:Inconsolata Nerd Font Mono:size=11,xft:Font\ Awesome:antialias=true:pixelsize=12
+URxvt*fontBold: xft:Liberation Mono:style=Bold:size=10
 URxvt*secondaryScreen: 1
 URxvt*secondaryScroll: 0
-URxvt*geometry:70x21
-! clickable url
-URxvt*perl-ext-common: default,matcher
+URxvt*perl-ext-common: default,matcher,font-size
 URxvt*url-launcher: /usr/bin/xdg-open
 URxvt*matcher.button: 1
 URxvt*matcher.rend.0: Uline Bold fg5
-! colors
 URxvt*foreground: green
-URxvt*background: rgba:0a00/0f00/1400/ee00
 URxvt*color12: rgb:5c/5c/ff
-URxvt*transparent: true
+! real transparency
+URxvt*depth: 32
+URxvt*background: rgba:1111/1111/1111/dddd
+! fake transparency
+! URxvt*transparent: true
+! URxvt*shading: 30
 ! URxvt*tintColor: green
-URxvt*shading: 20
-! scroll
+! URxvt*shading: 20
 URxvt*scrollBar:false
 URxvt*scrollBar_right:false
 URxvt*scrollstyle:rxvt
-! scroll to bottom when a non-special key pressed.
 URxvt*scrollTtyKeypress:true
-! login shell
-! for tmux, this is super-helpful and causes your bash login files like ~/.bash_profile to be loaded
 URxvt*loginShell:  true
-! --- }}}
-
-! rofi config --- {{{
-rofi.color-enabled: true
-rofi.color-window: argb:e8222D32,argb:00292f37,#EBCB8B
-rofi.color-normal: argb:02000000,#D8DEE9,argb:02000000,argb:02000000,#EBCB8B
-rofi.color-active: argb:02000000,#D8DEE9,argb:02000000,argb:02000000,#D8DEE9
-rofi.color-urgent: argb:02000000,#D8DEE9,argb:02000000,argb:02000000,#D8DEE9
-rofi.sidebar-mode: true
-rofi.separator-style: solid
-rofi.hide-scrollbar: true
-rofi.lines: 12
-rofi.width: 50
-rofi.padding: 16
-rofi.bw: 1
-rofi.show-icons: true
-! --- }}}
+URxvt.keysym.C-Up:     font-size:increase
+URxvt.keysym.C-Down:   font-size:decrease
+URxvt.keysym.C-S-Up:   font-size:incglobal
+URxvt.keysym.C-S-Down: font-size:decglobal
+URxvt.keysym.C-equal:  font-size:reset
+URxvt.keysym.C-slash:  font-size:show
+! disable keycap picture & basic iso 14755
+URxvt.iso14755: false
+URxvt.iso14755_52: false
 
 ! Colors config --- {{{
 ! colors
