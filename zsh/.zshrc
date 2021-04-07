@@ -38,3 +38,6 @@ RPROMPT=\$vcs_info_msg_0_
 # PROMPT=\$vcs_info_msg_0_'%# '
 zstyle ':vcs_info:git:*' formats '%b'
 bindkey '^ ' autosuggest-accept
+
+# ssh
+[ -z "$SSH_AUTH_SOCK" ] && eval "$(ssh-agent -s)"
