@@ -3,6 +3,8 @@
 joy_pad1_a = joystick0-button1
 joy_pad1_b = joystick0-button3
 joy_pad1_c = joystick0-button2
+joy_pad1_start = joystick0-button9
+joy_pad1_mode = joystick0-button8
 key_fullscreen_toggle = f
 bool_fullscreen = no
 scaling_startup = scale2x
