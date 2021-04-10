@@ -1,0 +1,9 @@
+# DGen 1.33 configuration file.
+# See dgenrc(5) for more information.
+joy_pad1_a = joystick0-button1
+joy_pad1_b = joystick0-button3
+joy_pad1_c = joystick0-button2
+key_fullscreen_toggle = f
+bool_fullscreen = no
+scaling_startup = scale2x
+ctv_craptv_startup = off
