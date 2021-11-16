@@ -1,0 +1,47 @@
+# vim: ft=config
+
+# link
+# https://fedoraproject.org/wiki/Networking/CLI
+
+# network manager install (+ other tools)
+sudo pacman -Syu network-manager
+sudo pacman -S wireless_tools
+sudo pacman -S wpa_supplicant
+
+# Voir la liste des réseaux et leur état
+nmcli dev
+nmcli device wifi list
+
+# Se connecter à un réseau wifi
+nmcli dev wifi connect <name> password <password>
+nmcli device wifi connect <SSID|BSSID> password <password>
+
+nmcli device wifi connect Livebox-C34A password 2ooYgcLP23bDKvbJzL
+nmcli device wifi connect Livebox-a271 password DCFED2A29E4C11C11C52C19ECE
+nmcli device wifi connect Livebox-E1C0 password 9LCSUy54CZZEEyf6hH
+nmcli device wifi connect 'HUAWEI P30' password 35f6f0f2e2fe
+
+# Se connecter à un réseau wifi sur l'interface wlp4s0 :
+nmcli dev wifi connect <name> password <password> iface wlp4s0 [profile name]
+
+# Déconnecter l'interface enp0s5
+nmcli dev disconnect iface enp0s5
+
+# Reconnecter une interface signalée comme déconnectée
+nmcli con up uuid <uuid>
+
+# Afficher la liste des UUIDs
+nmcli con show
+nmcli connection
+nmcli connection show <connection-name>
+nmcli connection show 'Livebox-C34A'
+
+# Couper le wifi
+nmcli r wifi off
+
+# Mesurer le signal
+nmcli dev wifi list | awk '/\*/{if (NR!=1) {print $8}}'
+nmcli -t -f SIGNAL
+
+# Monitor signal
+watch -n 1 cat /proc/net/wireless

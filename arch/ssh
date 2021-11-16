@@ -1,0 +1,33 @@
+# install
+sudo pacman -Sy openssh
+
+# check existing ssh key
+ls -al ~/.ssh
+
+# generate new ssh key
+ssh-keygen -t ed25519 -C "gillesfidani@gmail.com"
+enter (default directory to save ssh key)
+enter password
+
+# add key to ssh-agent
+## start ssh-agent in background
+eval "$(ssh-agent -s)"
+## add ssh private key to ssh-agent
+ssh-add ~/.ssh/id_ed25519
+enter password
+
+# add ssh key to github account
+xclip -selection clipboard < ~/.ssh/id_ed25519.pub
+# open GH / SETTINGS / SSH and GPG keys / add
+enter title
+enter ssh key (ctrl+v)
+
+# test ssh-agent is load
+echo "$SSH_AUTH_SOCK"
+no output == no ssh-agent load
+
+# launch ssh-agent in zsh (add to .zshrc)
+[ -z "$SSH_AUTH_SOCK" ] && eval "$(ssh-agent -s)"
+
+# automate adding keys after first use (add to ~/.ssh/config)
+AddKeysToAgent yes

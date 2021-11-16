@@ -1,0 +1,12 @@
+https://github.com/powerline/fonts
+
+1. sudo pacman -Sy powerline powerline-fonts (peut être pas nécessaire)
+
+2. dans .zshrc, ajouter :
+
+powerline-daemon -q
+. /usr/lib/python3.8/site-packages/powerline/bindings/zsh/powerline.zsh
+
+3. dans .Xresources
+
+URxvt*font: xft:Terminess Powerline:size=12

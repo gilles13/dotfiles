@@ -38,6 +38,9 @@ static const Rule rules[] = {
 	{ "qutebrowser",	NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "Zathura",  		NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "Soffice",  		NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "Snes9x-gtk",		NULL,       NULL,       1 << 5,       0,           -1 },
+	{ "dgen",		  		NULL,       NULL,       1 << 5,       0,           -1 },
+	{ "mame",		  		NULL,       NULL,       1 << 5,       0,           -1 },
 };
 
 /* layout(s) */
@@ -67,7 +70,8 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
+// static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "urxvt", NULL };
 
 static Key keys[] = {
 	/* modifier                     key						 function					 argument */
@@ -100,7 +104,7 @@ static Key keys[] = {
 	{ Mod4Mask|ShiftMask,         	XK_Tab,						 spawn,          SHCMD("tmux previous-window") },
 	{ MODKEY,         						  XK_F1,						 spawn,          SHCMD("firefox") },
 	{ MODKEY,         						  XK_F2,						 spawn,          SHCMD("notiftime") },
-	{ MODKEY,         						  XK_F3,						 spawn,          SHCMD("rssbrowser") },
+	{ MODKEY,         						  XK_F3,						 spawn,          SHCMD("drss") },
 	{ MODKEY,						            XK_F4,						 killclient,     {0} },
 	{ MODKEY,         						  XK_n,							 spawn,          SHCMD("mocp -f") },
 	{ MODKEY,         						  XK_w,							 spawn,          SHCMD("togglequiet") },

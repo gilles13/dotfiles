@@ -1,0 +1,16 @@
+# test micro
+
+alsamix, un-mute micro
+
+arecord -f dat -r 60000 -D hw:0,0 -d 5 test.wav
+
+aplay test.wav
+
+# camera : test avec mpv
+
+mpv av://v4l2:/dev/video0
+
+prendre photo avec s
+
+
+

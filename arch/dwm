@@ -1,0 +1,103 @@
+# install necessary packages
+
+sudo pacman -Sy base-devel git vim xorg-server xorg-init libx11 libxinerama libxft webkit2gtk
+
+# clone git dwm repo
+
+git clone https://git.suckless.org/dwm
+
+# edit .xinitrc
+
+exec dwm
+
+# compile dwm
+
+cd dwm
+# accessoirement
+# sudo vim config.def.h
+sudo make clean install
+
+# appliquer un patch
+
+git apply path/to/patch.diff
+
+# les patches qui m'intéressent
+
++ attachbottom : nouvelle fenêtre dans la stack (au lieu de master) sous la dernière fenêtre de la stack
++ pertag : un layout par tag
++ shiftview.c : cycler au travers des tags
+# https://github.com/bakkeby/patches/blob/master/dwm/dwm-shiftviewclients-6.2.diff
+
+# gérer les patchs avec git
+
+## dwl
+git clone https://git.suckless.org/dwm
+cd dwm
+
+## swallow
+git co -b swallow
+git apply ~/dwm/dwm-swallow-20201211-61bb8b2.diff
+git add config.def.h config.mk dwm.c
+git commit -m "swallow"
+git checkout master
+git merge swallow -m "swallow"
+make && sudo make clean install
+make clean && rm -f config.h && git reset --hard origin/master
+
+git checkout -b config
+vim config.def.h
+git add config.def.h
+git commit -m "config"
+git checkout master
+git merge config -m "config"
+make && sudo make clean install
+make clean && rm -f config.h && git reset --hard origin/master
+
+git branch pertag
+git checkout pertag
+git apply ~/dwm/dwm-pertag-20200914-61bb8b2.diff
+git add dwm.c
+git commit -m "pertag"
+git checkout master
+git merge config -m "config"
+git merge pertag -m "pertag"
+make && sudo make clean install
+make clean && rm -f config.h && git reset --hard origin/master
+
+git branch shiftview
+git checkout shiftview
+# curl https://github.com/bakkeby/patches/blob/master/dwm/dwm-shiftviewclients-6.2.diff -o dwm-shiftviewclients-6.2.diff
+git apply ~/dwm/dwm-shiftviewclients-6.2.diff 
+git add config.def.h dwm.c
+git commit -m "shiftview"
+git checkout master
+git merge config -m "config"
+git merge pertag -m "pertag"
+git merge shiftview -m "shiftview"
+make && sudo make clean install
+make clean && rm -f config.h && git reset --hard origin/master
+
+git checkout -b attachbottom
+git apply ~/dwm/dwm-attachbottom-6.2.diff
+git add dwm.c
+git commit -m "attachbottom"
+git checkout master
+git merge config -m "config"
+git merge pertag -m "pertag"
+git merge shiftview -m "shiftview"
+git merge attachbottom -m "attachbottom"
+make && sudo make clean install
+make clean && rm -f config.h && git reset --hard origin/master
+
+git checkout -b swallow
+git apply ~/dwm/dwm-swallow-20201211-61bb8b2.diff
+git add config.def.h config.mk dwm.c
+git commit -m "swallow"
+git checkout master
+git merge config -m "config"
+git merge pertag -m "pertag"
+git merge shiftview -m "shiftview"
+git merge attachbottom -m "attachbottom"
+git merge swallow -m "swallow"
+make && sudo make clean install
+make clean && rm -f config.h && git reset --hard origin/master

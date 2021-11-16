@@ -1,0 +1,27 @@
+# sudo pacman -S stow
+
+# créer des liens symboliques
+
+stow -v -t <TARGET> <DIR_TO_SYMLINK>
+
+# supprimer des liens symboliques
+
+stow -D -v -t <TARGET> <DIR_TO_UNLINK>
+
+# créer des liens symbo en omettant certains répertoires
+
+stow -v -t <TARGET> <DIR_TO_SYMLINK> --ignore='<REP_TO_IGNORE1>' --ignore='<REP_TO_IGNORE2>'
+
+# Sauvegarde des dotfiles sur un support amovible
+
+1. créer un répertoire dotfiles sur la clé USB (eg /media/usb1/dotfiles)
+
+2. créer un répertoire dotfiles sur le PC (eg /home/gilles/dotfiles)
+
+3. créer les liens symboliques
+
+3.1. se placer dans le(s) répertoires contenant les dotfiles -> cd ~/.config
+
+3.2. créer les liens -> stow -v -t ~/dotfiles dconf dunst et les autres
+
+4. utiliser le script savepcversclef pour sauvegarder les dotfiles sur la clef USB

@@ -1,0 +1,24 @@
+# dwl
+git clone https://git.suckless.org/sent
+git clone https://git.suckless.org/farbfeld
+
+cd farbfeld
+make
+sudo make clean install
+
+cd ~/sent
+make
+sudo make clean install
+sent example
+# confi (change bg & fg colors)
+vim config.h
+
+# make presentation
+vim example
+
+# rules
+1. un paragraphe par slide
+2. \ --> slide vide
+3. # --> commentaire (non affiché)
+4. @ --> insérer une image
+5. \char --> kill behaviour of special characters

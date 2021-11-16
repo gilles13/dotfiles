@@ -1,0 +1,73 @@
+# config arch
+
+# ajouter la clé usb aux points de montage
+vim /etc/fstab
+/dev/sdb1		/media/usb1		vfat		user,rw
+
+# installer les paquets essentiels
+
+## système de fenêtre
+pacman -Sy xorg-{server,xinit,apps}
+# pacman -Sy x86-input-{mouse,keyboard} # DEPRECATED 2021-03-26
+
+## window-manager
+# pacman -Sy i3-gaps i3blocks i3status
+# voir dwm
+
+## utilitaires indispensables
+pacman -Sy git tmux curl wget ranger stow slock dunst libnotify acpi xclip
+
+## fontes
+pacman -Sy ttf-{freefont,dejavu,linux-libertine} freetype2 fontconfig
+
+## R
+pacman -Sy r gcc-fortran tk
+
+## securité
+pacman -Sy gnupg openssh openssl
+
+## utils divers
+pacman -Sy neofetch picom remind abook mutt surfraw xmlstarlet 
+
+## browser
+pacman -Sy firefox
+pacman -Sy surf
+
+## utils tex
+pacman -Sy texlive-bin texlive-core texlive-fontsextra texlive-formatsextra texlive-latexextra
+
+# utils pdf
+pandoc pandoc-citeproc zathura zathura-pdf-poppler zathura-pdf-mupdf zathura-ps
+
+## archive
+pacman -Sy p7zip
+
+## video
+pacman -Sy mpv ffmpeg
+
+## audio
+pacman -Sy moc faad2 libmodplug libmpcdec taglib wavpack pulseaudio pulseaudio-alsa pulseaudio-bluetooth alsa-firmware alsa-utils
+
+## images
+pacman -Sy sxiv feh imagemagick
+
+## misc
+pacman -Sy bluez-utils
+
+## terminal
+cd ~
+git clone https://dl.suckless.org/st/st-0.8.1.tar.gz
+cd ~/st
+sudo make clean install
+
+# configurer
+
+## vim
+mkdir -p ~/.vim/bundle
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+## dotfiles
+mount /dev/sdb1
+cp /media/usb1/dotfiles ~/dotfiles
+cd ~/dotfiles
+stow bash/ config/ inputrc/ moc/ mutt/ surf/ tmux/ vim/ xinit/ xresources/ zsh/

@@ -1,0 +1,45 @@
+# vim: ft=config
+
+# cava --------------------------------
+
+## avec git
+git clone https://aur.archlinux.org/cava.git
+## avec curl
+curl -L https://aur.archlinux.org/cava.git | tar zx
+# se déplacer dans le répertoire téléchargé
+cd cava
+# lire le PKGBUILD
+less PKGBUILD
+# lancer le makepkg
+makepkg -si
+
+# udunits -----------------------------
+
+git clone https://aur.archlinux.org/udunits.git
+cd udunits
+makepkg -si
+
+# # oh-my-zsh ---------------------------
+# 
+# git clone https://aur.archlinux.org/oh-my-zsh-git
+# cd ~/oh-my-zsh/
+# makepkg -si
+
+
+# ttf-symbola -----------------------------
+git clone https://aur.archlinux.org/font-symbola
+cd font-symbola
+makepkg -si
+
+# # tuxguitar  ---------------------------
+# 
+git clone https://aur.archlinux.org/tuxguitar.git
+sudo archlinux-java set java-11-openjdk
+cd ~/tuxguitar/
+makepkg -si
+
+# tty-clock
+git clone https://aur.archlinux.org/tty-clock.git
+cd tty-clock
+makepkg -si
+

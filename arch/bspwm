@@ -1,0 +1,27 @@
+# bspwm : binary space partition window manager 
+# install packages
+
+sudo pacman -S xorg bspwm sxhkd dmenu picom
+
+# config files
+
+mkdir ~/.config/bspwm
+mkdir ~/.config/sxhkd
+
+cp /usr/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/
+cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/
+cp /etc/X11/xinit/xinitrc ~/.xinitrc
+
+## file .xinitrc
+
+~/.fehbg &
+numlockx &
+setxkbmap 'fr(latin9)' &
+xsetroot -cursor_name left_ptr
+picom -f &
+exec bspwm
+
+## facultatif
+sudo vim /etc/xdg/picom.conf
+
+--> comment vsync = true;

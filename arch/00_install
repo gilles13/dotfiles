@@ -1,0 +1,194 @@
+# dwl
+# https://www.archlinux.org/download/
+
+# URLISO=http://archlinux.de-labrusse.fr/iso/2019.01.01/
+URLISO=http://mir.archlinux.fr/iso/2021.03.01/
+# DIST=archlinux-2019.01.01-x86_64.iso
+# DIST=archlinux-2020.09.01-x86_64.iso
+DIST=archlinux-2021.03.01-x86_64.iso
+SIG=archlinux-2021.03.01-x86_64.iso.sig
+MD5=md5sums.txt
+SHA=sha1sums.txt
+
+wget "$URLISO$DIST"
+wget "$URLISO$SIG"
+wget "$URLISO$MD5"
+
+# vérif
+## intégrité
+md5sum -c md5sums.txt
+sha1sum -c sha1sums.txt
+## clé PGP
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 9741E8AC
+gpg --verify "$SIG"
+
+# création clé usb
+sudo fdisk -l
+# récupérer le sdX
+
+# WARNINGS
+sudo dd if=/home/gilles/archlinux-2020.09.01-x86_64.iso of=/dev/sdc bs=1M status="progress" && sync
+
+# booter sur clé et configurer
+## clavier fr
+loqdkeys fr)pc
+
+# connexion wifi
+iwctl
+device list
+station wlan0 scan
+station wlan0 get-networks
+# SSID == network name
+station wlan0 connect Livebox-C34A
+# entrer le password
+quit
+
+# ou
+iwctl --passphrase passphrase station device connect SSID
+iwctl --passphrase <pass> station wlan0 connect Livebox-C34A
+
+## voir les types de clavier
+find /usr/share/kbd/keymaps/ -type f
+## update de l'horloge système
+timedatectl set-ntp true
+
+# CHOIX UEFI / MBR
+# Test support UEFI
+cat /sys/firmware/efi/fw_platform_size
+
+
+# partitionner le disque dur
+
+# UTILISER FDISK
+
+## uefi --> utiliser fdisk (uefi == EFI System) / gdisk (uefi == EF00)
+/dev/sda1 pour le /boot/efi - 500M
+/dev/sda2 pour la swap			- f° de la RAM (16G)
+/dev/sda3 pour le /					- 40/50G
+/dev/sda4 pour le /home			- le reste
+
+## mbr
+/dev/sda1 pour la swap			- f° de la RAM (16G)
+/dev/sda2 pour le /					- le reste
+
+# formatage des partitions
+fdisk /dev/sda
+list previous partition (p)
+delete previous partition (d)
+create new ones (n)
+p (pour primary)
+Pour partition swap
+créer puis modifier avec (t)
+code HEX == 82
+créer la 3e partition (root)
+créer la dernière (home)
+confirmer avec p (pour lister) puis w (pour écrire)
+
+# créer le filesystem
+
+## uefi
+mkfs.fat -F32 /dev/sda1
+mkfs.ext4 /dev/sda3
+mkfs.ext4 /dev/sda4
+
+## mbr
+mkfs.ext4 /dev/sda2
+
+## pour les 2
+mkswap /dev/sda1 (MBR)
+swapon /dev/sda2 (UEFI)
+
+# montage des partitions
+## UEFI
+mkdir /mnt/efi
+mount -t vfat /dev/sda1 /mnt/efi
+mount /dev/sda3 /mnt
+mkdir /mnt/home
+mount /dev/sda4 /mnt/home
+
+## MBR
+mount /dev/sda2 /mnt
+
+# install des packages de base
+pacstrap /mnt base linux linux-firmware vim iwd rxvt-unicode
+
+# config du systeme
+## création du fstab
+genfstab -U /mnt >> /mnt/etc/fstab
+
+## chrooter dans le nouveau systeme
+arch-chroot /mnt
+
+#-----------------------
+mkdir /boot/EFI
+mount /dev/sda1 /boot/EFI
+grub-mkconfig -o /boot/grub/grub.cfg
+
+## install packages utiles
+pacman -S networkmanager bluez
+
+## enable services
+systemctl enable NetworkManager
+systemctl enable bluetooth
+
+## connaitre le type d'os (32 ou 64 bits)
+uname -m
+# ou
+getconf LONG_BIT
+
+## grub
+### uefi
+pacman -S grub efibootmgr linux-headers base-devel
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
+
+### mbr
+pacman -S grub linux-headers base-devel
+#### arch 64bits
+grub-install --target=x86_64 /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+#### arch 32bits
+grub-install --target=i386-pc /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+
+## fixer le timezone
+ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
+
+## génerer /etc/adjtime
+hwclock --systohc
+
+## locales
+vim /etc/locale.gen
+# décommenter les lignes fr_FR.UTF-8 / fr_FR ISO-8859-1 / fr_FR@euro ISO-8859-15 / us_US.UTF-8
+## générer les locales
+locale-gen
+## fixer les variables dans /etc/locale.conf
+LANG="fr_FR.UTF-8"
+LANGUAGE="fr_FR:us_US"
+LC_COLLATE=C
+## fixer la locale pour la session courante
+export LANG=fr_FR.UTF-8
+
+## keyboard layout pour la console
+echo KEYMAP=fr > /etc/vconsole.conf
+
+## hostname / hosts
+echo rc530 > /etc/hostname
+echo '127.0.1.1 rc530.localdomain rc530' >> /etc/hosts
+
+## changer le password root
+passwd root
+
+# finaliser l'opération
+exit # ou Ctrl+d
+umount -R /mnt
+reboot
+
+## POST INSTALL
+
+# update system
+pacman -Syu
+
+# create users
+useradd -mG wheel gilles
+passwd gilles
+usermod -aG wheel,audio,input,storage,video,log,users

@@ -1,0 +1,45 @@
+# REMOVE PACKAGES
+
+## leave dependencies
+sudo pacman -R <packagename>
+
+## remove dep not required by other installed packages
+sudo pacman -Rs <packagename>
+
+## remove orphaned packages
+pacman -Qtdq | pacman -Rns -
+
+# DIST UPGRADE
+
+## without refresh all package list
+sudo pacman -Syu
+
+## refresh all package list
+sudo pacman -Syyu
+
+# CLEAN CACHE
+
+sudo pacman -Sc
+
+# MIRRORS UPDATE
+
+sudo vim /etc/pacman.d/mirrorlist
+
+# GPG KEYS UPDATE
+
+sudo pacman -Scc
+sudo rm -R /etc/pacman.d/gnupg/
+sudo gpg --refresh-keys
+sudo pacman-key --init
+sudo pacman-key --populate
+sudo pacman-key --refresh-keys
+
+## ou alors
+sudo pacman -Sy archlinux-keyring
+sudo pacman -Su
+
+# TO READ
+
+https://wiki.archlinux.org/index.php/System_maintenance#Upgrading_the_system
+
+

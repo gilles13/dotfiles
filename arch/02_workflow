@@ -1,0 +1,283 @@
+# Gilles Archlinux+DWM workflow
+
+### DWM
+
+config : `/XXX/dwm/config.def.h`
+
+Voir tuto DWM :
+
+[https://dwm.suckless.org/tutorial/](https://dwm.suckless.org/tutorial/)
+
+[https://ratfactor.com/dwm](https://ratfactor.com/dwm)
+
+Cheat sheet default key : [https://gist.github.com/erlendaakre/12eb90eef84a3ab81f7b531e516c9594](https://gist.github.com/erlendaakre/12eb90eef84a3ab81f7b531e516c9594)
+
+PERSONAL KEYS BIND
+
+Alt + p : lancer dmenu
+
+Alt + Shift + q : quitter DWM
+
+Alt + Entrée : open terminal
+
+Alt + Shift + Entrée : zoom (toggle window between master and stack area)
+
+Alt + TAB : tmux next window
+
+Ctrl + TAB : back & forth between tags
+
+Alt + F1 : open firefox
+
+Alt + F2 : notiftime
+
+Alt + F3 : drss (flux rss dans dmenu)
+
+Alt + F4 : kill client
+
+Alt + w : togglequiet
+
+Alt + n : `mocp -f` (next musik)
+
+Alt + `+` : volume up
+
+Alt + `-` : volume down
+
+Alt + `*` : volume mute
+
+## VIM
+
+config : `~/.vimrc`
+
+F5 : compiler le buffer (markdown) en pdf
+
+## ABOOK
+
+config : `~/.abook/abookrc`
+
+## MOCP
+
+config : `~/.moc/config`
+
+Notifications au changement de musique :
+
+1. éditer `~/.moc/config`, à la ligne OnSongChange = "/home/gilles/scripts/moconsongchange %a %t %r"
+
+2. dans le répertoire de script (`~/scripts`), créer le script `moconsongchange`, shebang + `notify-send "$1 - $2 ($3)"`
+
+## CONNECT PHONE
+
+required (arch) : libmtp mtpfs jmtpfs
+
+sudo pacman -Sy libmtp mtpfs
+
+cd software && git clone https://aur.archlinux.org/jmtpfs.git
+
+cd jmtpfs
+
+makepkg -s
+
+sudo pacman -U jmtpfs-0.5-2-x86_64.pkg.tar.zst
+
+sudo mkdir /media/phone
+
+sudo chown -R gilles /media/phone/
+
+sudo chgrp -R gilles /media/phone/
+
+alias phonemount='jmtpfs /media/phone'
+
+**REBOOT nécessaire**
+
+sudo reboot
+
+## DUNST
+
+## MISC
+
+### RSS READER
+
+sfeed [http://codemadness.org/sfeed-simple-feed-parser.html](http://codemadness.org/sfeed-simple-feed-parser.html)
+
+### id3v2 (id3 tag editor)
+
+sudo pacman -Sy id3v2
+
+voir [http://id3lib.sourceforge.net/id3/](http://id3lib.sourceforge.net/id3/)
+
+[http://id3lib.sourceforge.net/](http://id3lib.sourceforge.net/)
+
+[http://id3v2.sourceforge.net/](http://id3v2.sourceforge.net/)
+
+#### Lire les tags d'un mp3
+
+id3v2 -l file.mp3
+
+#### Tagger un mp3
+
+  + TIT2 : title / song name
+
+id3v2 -t SONGNAME file.mp3
+
+  + TPE1 : lead performer / soloist
+
+id3v2 -a ARTIST file.mp3
+
+  + TALB : album title
+
+id3v2 -A ALBUMTITLE file.mp3
+
+  + TCON : content type (genre de musique)
+
+id3v2 -g ALBUMGENRE file.mp3
+
+voir genres de musique : [http://id3lib.sourceforge.net/id3/id3v2.3.0.html#secA](http://id3lib.sourceforge.net/id3/id3v2.3.0.html#secA)
+
+  + TYER : year
+
+id3v2 -y ALBUMYEAR file.mp3
+
+  + TRCK : track number / position in set
+
+id3v2 -T x/x file.mp3
+
+  + TPE4 : interpreted, remixed, or otherwise modified by
+
+id3v2 --TPE4 REMIXER file.mp3
+
+\clearpage
+
+## shell scripts
+
+### aide
+afficher de l'aide sur plusieurs utilitaires (vim, tmux, rangers, ...)
+
+### audioBluetooth
+`pulseaudio` required  
+lister et connecter un device en bluetooth
+
+### autocomp
+todo
+
+### backupusbdrive
+sauvegarde certains dossiers de la clé USB vers le répertoire `backup` du pc
+
+dossiers sauvegardés :
+
+	+ insee
+	+ scripts
+	+ r
+	+ dotfiles
+	+ refcard_gilles
+	+ unix
+	+ prez
+
+### battery
+`cronjob` suggested  
+indicateurs du niveau de batterie
+
+### changewall
+`cronjob` suggested  
+change le wallpaper
+
+### colornotifyremind
+parse la sortie de la commande `rem -s2`.
+filtre les `reminds` passés et ajoute de la couleur aux évènements du jour.
+la couleur est adaptée pour un affichage dans une notification `dunst`
+
+### colorshellremind
+idem mais adapté pour un affichage dans un terminal
+
+### cpdf
+`reminds, recode, ps2pdf, zathura` required  
+compile et affiche en pdf les `reminds` sur 3 mois
+
+### dmenuunicode
+required
+
+	+ fichier `~/.emoji`
+	+ `xclip`
+affiche une liste d'emoji et les copie dans clipboard ou primary
+
+### dmoc
+piloter `moc` (music on console) *via* `dmenu`
+
+### dmount
+affiche un dmenu pour monter/démonter les périphériques USB / android
+
+### dpass
+todo
+
+### dprompt
+todo
+
+### dsent
+todo
+
+### dsurf
+todo
+
+### dumount
+todo
+
+### dunicode
+todo
+
+### dunstcalendar
+`dunst` required  
+affiche un calendrier du mois dans une notif `dunst`
+
+### durl
+todo
+
+### emoji
+todo
+
+### emoscrap
+todo
+
+### modepc
+`xrander` required  
+bascule en affichage pc only
+
+### modetv
+`xrander` required  
+bascule en affichage tv+pc
+
+### mtsencode
+`ffmpeg` required  
+encoder une video MTS en mp4 (x265 + libvorbis. réso 854x480)
+
+### cal_pdf
+require recode
+créer un fichier `$HOME/calendar.pdf` sur 12 mois
+
+### cal_show
+require recode
+affiche un calendrier sur 3 mois
+
+### myclip
+`dunst` required  
+affiche une notification des éléments copiés dans clipboard et primary
+
+### notifremind
+`dunst` required  
+affiche une notification des `reminds` du jour
+
+### moconsongchange
+`moc, dunst` required  
+affiche une notif au changement de musique de `moc`  
+éditer `$HOME/.moc/conf`, à la ligne OnSongChange  
+OnSongChange = "/home/gilles/scripts/moconsongchange %a %t %r"
+
+### refcards
+
+### savepcversclef
+
+### screencast
+
+### togglequiet
+sur pression de la touche F12, altèrne en mode `quiet` (fond d'écran noir)  
+sélectionne au hasard une image dans le dossier `$HOME/new\_wall` et l'affiche en fond d'écran
+
+\clearpage
+

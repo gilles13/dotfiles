@@ -1,0 +1,6 @@
+# modèle du chipset audio
+lspci | grep -i audio
+cat /proc/asound/pcm
+
+# déterminer la carte son
+arecord --list-devices

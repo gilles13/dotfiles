@@ -1,0 +1,19 @@
+# dwl
+git clone https://git.suckless.org/st/
+
+# go
+cd ~/st
+
+# patch
+# wget https://st.suckless.org/patches/scrollback/st-scrollback-0.8.diff
+# wget https://st.suckless.org/patches/alpha/st-alpha-0.8.2.diff
+# patch -p1 < st-scrollback-0.8.diff
+
+# install
+sudo make clean install
+
+# config
+vim config.h
+
+# uninstall
+sudo make uninstall

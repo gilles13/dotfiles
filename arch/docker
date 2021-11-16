@@ -1,0 +1,173 @@
+# install
+
+sudo pacman -Sy docker
+
+# start / enable service
+
+sudo systemctl start docker.service
+sudo systemctl enable docker.service
+
+# verifier
+
+sudo docker info
+
+# s'ajouter au groupe docker
+
+sudo groupadd docker
+sudo gpasswd -a gilles docker
+# vérif
+groups
+
+# test
+
+docker run hello-world
+
+# ---------------------------------------------------------
+# télécharger une image
+docker pull debian
+docker pull alpine
+
+# ---------------------------------------------------------
+# lancer un docker debian
+docker run debian
+docker run -ti alpine
+docker run --rm -i -t debian /bin/bash
+
+# lancer un docker ubuntu
+# attache le container à notre CLI
+# lancer /bin/bash
+docker run --rm -i -t ubuntu /bin/bash
+
+# lancer l'image rocker/rstudio
+docker run --rm -p 8787:8787 -e PASSWORD=monpass rocker/rstudio
+docker run --rm -p 8787:8787 -e PASSWORD=monpass rocker/geospatial
+
+## -rm : remove container after quit
+## -p  : fix port
+
+# lancer rocker/rstudio avec acces à un répertoire du pc
+docker run --rm -p 8787:8787 -v /home/gilles/mydocker:/home/rstudio -e PASSWORD=monpass rocker/rstudio
+
+
+# ---------------------------------------------------------
+## build (se placer dans le répertoire contenant le Dockerfile)
+## ATTENTION ! va *builder* tout le contexte du répertoire dans
+## lequel se situe le Dockerfile !!!
+docker build .
+
+## build avec tag "debmocvimtmux" 
+docker build -t debmocvimtmux .
+
+## lancer
+docker run --rm -i -t debmocvimtmux /bin/bash
+
+
+# ---------------------------------------------------------
+# modifier une image rocker en intégrant des packages supplémentaires
+## lancer le docker
+## installer des packages
+## identifier l'id du container avec docker ps
+## commiter la nouvelle version de l'image (depuis un autre terminal)
+docker commit -m "message du commit" <container id> <nom_nouvelle_image>
+## ex
+docker commit -m "rstudio + data.table" 0746924ad487 rstudio_datatable
+
+# ---------------------------------------------------------
+# sauvegarder une image docker en archive
+docker save nom_image > nom_image.tar
+docker save rstudio_datatable > rstudio_dt.tar
+
+# charger une image sauvegardée en archive
+docker load --input rstudio_dt.tar
+
+# ---------------------------------------------------------
+# Dockerfile
+
+FROM debian
+MAINTAINER Gilles Fidani <gillesfidani@gmail.com>
+RUN apt-get update \
+	&& apt-get install -y \
+		tmux vim moc
+COPY mocinfo /home/docker/scripts/mocinfo
+RUN chmod 744 /home/docker/scripts/mocinfo
+WORKDIR /home/docker
+
+## REMARQUE
+# les fichiers à copier vers le container doivent
+# être dans le répertoire du Dockerfile
+
+# ---------------------------------------------------------
+# docker volume
+
+## lister les volumes
+docker volume ls
+
+## supprimer un volume
+docker volume rm <volume_name> <volume2_name>
+
+## un dangling volume est un volume connecté à aucun container
+
+## lister les dangling (pendant) volume
+docker volume ls -f dangling=true
+
+## supprimer un volume dangling
+docker volume prune
+
+## supprimer un container et son volume
+## ATTENTION : ne supprime que les volumes sans nom
+## les volumes nommés sont silencieusement conservés
+docker rm -v container_name
+
+
+# ---------------------------------------------------------
+
+# commandes docker
+
+## list docker images
+docker images
+
+## historique de l'image
+docker history 4e5021d210f6
+docker history c0158f41358a
+
+## list running docker processes
+docker ps
+
+## faire le ménage dans ses container
+docker system prune
+
+## chercher une image
+docker search --stars=10 debian
+docker search --filter=stars=10 debian
+
+## différences entre un docker et son image ?
+docker diff master
+
+# liens utiles
+
+http://ropenscilabs.github.io/r-docker-tutorial/
+
+https://www.wanadev.fr/23-tuto-docker-comprendre-docker-partie1/
+
+https://www.wanadev.fr/24-tuto-docker-demarrer-docker-partie-2/
+
+https://www.wanadev.fr/27-tuto-docker-les-commandes-et-docker-partie-3/
+
+https://fr.wikipedia.org/wiki/Docker_(logiciel)#cite_ref-Linux_7-0
+
+https://docs.docker.com/
+
+https://hub.docker.com
+
+
+
+
+
+
+docker build -t 566:dockerutilitR .
+docker run --rm -p 8787:8787 -e PASSWORD=monpass 566
+docker run --rm -p 8787:8787 -v /home/gilles/gitlab_externe/documentationR/:/home/rstudio/documentationR -v /home/gilles/.ssh:/home/rstudio/.ssh -v /home/gilles/.gitconfig:/home/rstudio/.gitconfig -e USERID=$UID -e PASSWORD=monpass 566
+
+
+docker run --rm -p 8787:8787 -e PASSWORD=monpassword registry.gitlab.com/linogaliana/documentationr:master
+

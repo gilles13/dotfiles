@@ -1,0 +1,26 @@
+# TOREAD
+# https://codemadness.org/git/sfeed/file/README.html
+# https://codemadness.org/sfeed.html
+
+# install
+cd ~/software
+git clone git://git.codemadness.org/sfeed
+cd ~/software/sfeed
+make
+sudo make install
+
+# setup
+mkdir -p "$HOME/.sfeed/feeds"
+cp sfeedrc.example "$HOME/.sfeed/sfeedrc"
+# éditer $HOME/.sfeed/sfeedrc
+
+# script pour dmenu
+# possible de remplacer dmenu par fzf
+
+#!/bin/sh
+url=$(sfeed_plain "$HOME/.sfeed/feeds/"* | dmenu -l 35 -i | \
+		sed -n 's@^.* \([a-zA-Z]*://\)\(.*\)$@\1\2@p')
+test -n "${url}" && $BROWSER "${url}"
+
+# si $BROWSER non définie, remplacer par /bin/firefox ou autre
+

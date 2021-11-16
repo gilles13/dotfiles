@@ -1,0 +1,39 @@
+# install
+
+sudo pacman -S mame snes9x dgen-sdl alsa-oss
+
+# mame (arcade)
+
+config : ~/.mame/mame.ini
+mame -createconfig
+
+# snes9x (super nintendo)
+
+snes9x /path/rom
+need alsa-oss package
+sudo modprobe snd_pcm_oss
+
+# dgen-sdl (megadrive)
+
+dgen /path/rom
+config : ~/.dgen/dgenrc
+# pour Aladdin
+# joy_pad1_a = joystick0-button0
+# joy_pad1_b = joystick0-button3
+# joy_pad1_c = joystick0-button1
+
+## RETROARCH
+# https://wiki.archlinux.org/index.php/RetroArch
+
+sudo pacman -S retroarch libretro-core-info
+
+# edit ~/.config/retroarch/retroarch.cfg
+
+menu_show_core_updater = "true"
+
+## xboxdrv
+
+git clone https://aur.archlinux.org/xboxdrv.git
+cd xboxdrv
+makepkg -si
+

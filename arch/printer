@@ -1,0 +1,19 @@
+# install
+
+sudo pacman -Sy libcups cups hplip ghostscript avahi nss-mdns
+
+# démarrer cups
+sudo systemctl start org.cups.cupsd.service
+sudo systemctl enable org.cups.cupsd.service
+
+# démarrer avahi
+sudo systemctl start avahi-daemon
+sudo systemctl enable avahi-daemon
+
+http://localhost:631/
+
+# to read
+https://wiki.archlinux.fr/CUPS
+
+https://wiki.archlinux.org/index.php/CUPS#Network
+
