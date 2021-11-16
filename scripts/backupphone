@@ -1,0 +1,15 @@
+#!/bin/sh
+# -r, --recursive recurse into directories
+# -l, --links copy symlinks as symlinks
+# -t, --times preserve modification times
+# -z, --compress compress file data during the transfer
+# -u, --update skip files that are newer on the receiver
+
+command -v rsync >/dev/null 2>&1 || exit
+
+if ! grep -qs '/media/phone ' /proc/mounts;then
+	echo "Le téléphone n'est pas montée" && exit
+else
+# 	--exclude=vim/.vim/ \
+	rsync -rltuv -zz '/media/phone/Mémoire de stockage interne/DCIM/Camera' ~/backups/phone/
+fi

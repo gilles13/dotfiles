@@ -1,0 +1,4 @@
+#!/bin/sh
+notify-send "$1 - $2 ($3)"
+
+# voir https://moc.daper.net/node/843

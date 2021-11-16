@@ -1,0 +1,11 @@
+#!/bin/sh
+# http://www.troubleshooters.com/linux/dmenu/bestpractices.htm
+
+# sfeed_plain "$HOME/.sfeed/feeds/"*
+# sfeed_plain "$HOME/.sfeed/feeds/"* |cut -d$'\t' -f 2-
+# sfeed_plain "$HOME/.sfeed/feeds/"* |cut -d' ' -f 2-
+
+url=$(sfeed_plain "$HOME/.sfeed/feeds/"* | fzf -e | \
+		sed -n 's@^.* \([a-zA-Z]*://\)\(.*\)$@\1\2@p')
+test -n "${url}" && $BROWSER "${url}"
+

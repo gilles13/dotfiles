@@ -1,0 +1,8 @@
+#!/bin/bash
+
+notify-send "$(echo -e "$(date "+%a %d %b %Y - %H:%M")")"
+
+# for i in `seq 1 1 5`; do
+# 	notify-send "`date "+%a %d %b %H:%M:%S"`" -h string:x-canonical-private-synchronous:my-notification
+# 	sleep 1
+# done

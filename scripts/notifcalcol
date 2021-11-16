@@ -1,0 +1,7 @@
+#!/bin/bash
+
+mycal="$(cal --color=always | sed -e "s/[[:cntrl:]]\[3m/<span color='yellow'>/g" -e "s/[[:cntrl:]]\[23m/<\/span>/g")"
+
+DISPLAY=:0
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus setpriv --euid=1000 notify-send "Calendrier" "$mycal"
+# dunstify "Calendrier" $mycal

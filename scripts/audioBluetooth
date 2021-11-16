@@ -1,0 +1,62 @@
+#!/bin/sh
+# L'adresse MAC du recepteur pour la connexion
+MAC="04:52:C7:84:DB:9E" 
+_list() {
+    pacmd list-sinks | awk  -F ': ' '
+        BEGIN {
+            print("Cartes disponibles (id => nom):\n")
+        }
+        /^[ \t\*]+index:/ {
+            printf("%s => ", $2)
+        }
+        /^[ \t]+card/ {
+            split($2, elems, " ")
+            gsub(/[<>]/, "", elems[2])
+            print(elems[2])
+        }
+    '
+}
+_switch() {
+    for app in $(pacmd list-sink-inputs | awk -F': ' '/index/ {print $2}'); do 
+        pacmd move-sink-input $app $1 
+    done
+    pacmd set-default-sink $1 
+}
+_vol() {
+    vol="$1"
+    for sink in $(pacmd list-sinks | awk -F ': ' '/index:/ {printf $2" "}'); do
+        pactl set-sink-volume $sink -- "$vol"
+    done
+}
+_help() {
+    cat <<EOF
+$0: Gestionnaire minimal pulseaudio + BT
+Syntaxe: $0 commande [options]
+list, l 
+    Affiche la liste des sorties audio disponibles.
+    Les informations sont représentées sous le format "id => nom".
+    Un id ou un nom peut être utilisé indiféremment avec la
+    commande switch. Les id peuvent être différents suivant les sesisons
+    mais les noms sont toujours identiques.
+switch, s nom|id
+    Modifie la sortie audio par défaut en cours, et y redirige la sortie
+    audio de toutes les applications. 
+vol valeur
+    Modifie le volume de toute les sorties audios. Les dB ou % sont
+    acceptés et peuvent être préfixés de '+' et '-' pour être relatifs
+    à la valeur en cours.
+connect, c
+    Se connecte au recepteur BT.
+disconnect, d 
+    Se deconnecte du recepteur BT.
+EOF
+    exit 1
+}
+case "$1" in
+    list|l|"") _list;;
+    switch|s) shift; _switch "$1";;
+    vol|v) shift; _vol "$1";;
+    connect|c) printf "connect $MAC\nquit"| bluetoothctl;;
+    disconnect|d) printf "disconnect $MAC\nquit\n"| bluetoothctl;;
+    *) _help;;
+esac

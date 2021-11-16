@@ -1,0 +1,9 @@
+#!/bin/sh
+# vim: ft=sh
+
+DATE="$(date +%Y-%m-%d_%H-%M-%s)"
+cd ~/
+
+# AVEC MICRO
+ffmpeg -s 1366x768 -f x11grab -r 25 -i :0.0 -f alsa -i hw:0 -vcodec libx264 -preset ultrafast -threads 0 -y $DATE.mkv
+

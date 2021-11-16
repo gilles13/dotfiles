@@ -1,0 +1,4 @@
+#!/bin/sh
+# need remind / recode / ghostscript / zathura
+
+remind -ps3 ~/.reminders2 | recode utf-8..iso8859-15 | rem2ps -i | ps2pdf - | zathura -

@@ -1,0 +1,8 @@
+#!/bin/sh
+# http://www.troubleshooters.com/linux/dmenu/bestpractices.htm
+
+sfeed_update
+url=$(sfeed_plain "$HOME/.sfeed/feeds/"* | dmenu -l 30 -fn 'Liberation Mono:pixelsize=10' -i | \
+# url=$(sfeed_plain "$HOME/.sfeed/feeds/"* | fzf -e | \
+		sed -n 's@^.* \([a-zA-Z]*://\)\(.*\)$@\1\2@p')
+test -n "${url}" && /bin/firefox "${url}"

@@ -1,0 +1,94 @@
+#!/bin/bash
+
+if ! grep -qs '/media/usb1 ' /proc/mounts;then
+	echo "La clé n'est pas montée" && sleep 2 && exit
+else
+
+DELAY=7 # Number of seconds to display results
+PATHDATA=/media/usb1
+APP=xdg-open
+
+while true; do
+  clear
+  cat << _EOF_
+
+1. vim
+2. tmux
+3. nvimr
+4. git
+5. github
+6. ssh
+7. memoGilles
+8. ut4ds
+9. bash cook book
+10. bash pocket ref
+11. ranger
+12. python
+0. Quit
+
+_EOF_
+
+  read -p "Enter selection [1-12] > "
+
+	#   if [[ $REPLY =~ ^[1-9]$ ]]; then
+	if [ $REPLY -lt 13 ]; then
+		case $REPLY in
+			1)
+				$APP $PATHDATA/refcards/vim/vim_ref.pdf 2>/dev/null &
+				continue
+				;;
+			2)
+				$APP $PATHDATA/refcards/tmux/tmuxV2.pdf 2>/dev/null &
+				continue
+				;;
+			3)
+				$APP $PATHDATA/refcards/nvimr/nvimr.pdf 2>/dev/null &
+				continue
+				;;
+			4)
+				$APP $PATHDATA/refcards/git/git.pdf 2>/dev/null &
+				continue
+				;;
+			5)
+				$APP $PATHDATA/refcards/github/github.pdf 2>/dev/null &
+				continue
+				;;
+			6)
+				$APP $PATHDATA/refcard/ssh/ssh.pdf 2>/dev/null &
+				continue
+				;;
+			7)
+				$APP $PATHDATA/insee/memoGilles/memoGilles.pdf 2>/dev/null &
+				continue
+				;;
+			8)
+				$APP $PATHDATA/refcards/ut4ds/ut4ds.pdf 2>/dev/null &
+				continue
+				;;
+			9)
+				$APP $PATHDATA/unix/bash_shell_cli/Bash.cookbook.fr.pdf &
+				continue
+				;;
+			"10")
+				$APP $PATHDATA/unix/bash_shell_cli/Bash.pocket.reference.pdf &
+				continue
+				;;
+			"11")
+				$APP $PATHDATA/refcards/ranger/ranger.pdf &
+				continue
+				;;
+			"12")
+				$APP $PATHDATA/refcards/python/python.pdf &
+				continue
+				;;
+			0)
+				break
+				;;
+		esac
+	else
+		echo "Invalid entry."
+		sleep $DELAY
+	fi
+done
+echo "A +"
+fi

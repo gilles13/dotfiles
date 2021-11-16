@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Battery level warning script
+# IMPORTANT : chmod +x battery
+# need libnotify + notification serveur, eg dunst
+# use $ crontab -e to schedule script execution
+# add the following lines
+# DISPLAY=:0.0
+# DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+# */1 * * * * /home/gilles/scripts/battery
+
+battery_level=`acpi -b | grep -oP '[0-9]+(?=%)'`
+battery_state=`acpi -b | awk '{print $3}'`
+
+# check if charging
+if [[ $battery_state = "Charging," ]]; then
+  exit 0
+
+# if discharging
+
+# charge entre 30 et 20%
+elif [[ $battery_level -le 30 && $battery_level -gt 20 ]]; then
+  notify-send --urgency low "Battery low warning" "Level is ${battery_level}%"
+
+# charge entre 20 et 10%
+elif [[ $battery_level -le 20 && $battery_level -gt 10 ]]; then
+  notify-send -i /usr/share/icons/Adwaita/16x16/status/battery-low-symbolic.symbolic.png --urgency normal "Battery very low warning" "Battery level is ${battery_level}% Use ac power now, or shutdown is imminent Close applications"
+
+# charge critique < 10%
+elif [[ $battery_level -le 10 ]]; then
+  notify-send --urgency critical "Battery critical warning" "Battery level is ${battery_level}% Shutting system down now"
+# 	espeak -v mb/mb-fr4 -s 130 "Niveau de batterie ${battery_level}%, brancher vite sur secteur"
+fi

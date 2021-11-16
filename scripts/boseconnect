@@ -1,0 +1,10 @@
+#!/bin/sh
+
+killall pulseaudio
+sleep 1
+pulseaudio -D
+bluetoothctl -- power on
+sleep 1
+bluetoothctl -- connect 04:52:C7:84:DB:9E 
+audioBluetooth s $(audioBluetooth | grep -P '^(?!0)[1-9]' | cut -c 1)
+# MYSINK = audioBluetooth | grep -P '^(?!0)[1-9]' | cut -c 1

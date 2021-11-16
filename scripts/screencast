@@ -1,0 +1,50 @@
+#!/bin/sh
+# vim: ft=sh
+
+DATE="$(date +%Y-%m-%d_%H-%M-%s)"
+cd ~/
+# sans le son
+# ffmpeg -f x11grab  -s 1366x768 -i :0.0 -r 25 -vcodec libx264  $DATE.mkv
+# trouver la réso de son écran
+# xrandr -q --current | grep '*' | awk '{print$1}'
+
+# avec le son
+# pactl list sources short | awk '{print$2}' | grep 'monitor'
+# REC_IFACE=$(pactl list sources short | awk '{print$2}' | grep 'monitor')
+# SCREEN_RESOs=$(xrandr -q --current | grep '*' | awk '{print$1}')
+
+# # lister les devices audio
+# arecord -l
+# arecord -L
+# pactl list
+
+# AVEC CARTE SON PC (musique)
+ffmpeg -s 1366x768 \
+	-f x11grab \
+	-r 25 \
+	-i :0.0 \
+	-f pulse -i default \
+	-vcodec libx264 \
+	-preset ultrafast \
+	-vf "drawtext=fontfile=/usr/share/fonts/ttf-linux-libertine/LinBiolinum_Kah.ttf:fontsize=50: \ text='%{eif\:(t)\:d\:3}': fontcolor=white@1: x=1200: y=30: shadowcolor=black:shadowx=2:shadowy=1" \
+	-crf 0 \
+	-threads 0 \
+	-y $DATE.mkv
+
+# enregistrer seulement le pc speaker
+# https://askubuntu.com/questions/682144/capturing-only-desktop-audio-with-ffmpeg
+# https://wiki.archlinux.org/index.php/PulseAudio/Examples
+# http://terokarvinen.com/2015/volume-control-with-pulseaudio-command-line-tools
+# pactl list
+# pacmd list-sinks | grep -e 'name:'
+
+# # SOLUTION #
+# # http://debian-facile.org/doc:media:pulseaudio
+# pactl list
+# cp /etc/pulse/client.conf ~/.config/pulse/client.conf
+# vim ~/.config/pulse/client.conf
+# default-source = alsa_output.pci-0000_00_1b.0.analog-stereo.monitor
+# default-source = bluez_sink.04_52_C7_84_DB_9E.a2dp_sink.monitor
+
+
+

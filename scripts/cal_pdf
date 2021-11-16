@@ -1,0 +1,4 @@
+#!/bin/bash
+# need remind / recode
+
+remind -mps12b1 $HOME/.reminders2 | recode utf-8..iso8859-15 | rem2ps -i | sed 's/(today)//g' > $HOME/calendar.ps && ps2pdf $HOME/calendar.ps $HOME/calendar.pdf && rm $HOME/calendar.ps

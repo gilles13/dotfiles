@@ -1,0 +1,10 @@
+#!/bin/env sh
+
+export DISPLAY=":0.0"
+wallpaperdir="$HOME/wallpapers"
+
+# files=($wallpaperdir/*)
+# randompic="$(printf "%s\n" "${files[RANDOM % ${#files[@]}]}")"
+files="$(find $wallpaperdir -type f)"
+randompic=$(echo "$files" |shuf -n 1)
+feh --bg-fill "$randompic"

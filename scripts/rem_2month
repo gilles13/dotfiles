@@ -1,0 +1,20 @@
+#!/bin/bash
+
+oldIFS=$IFS
+IFS=$'\n'
+# ici, on crée un array des rdv du mois en cours et le suivant
+# fichier=($(rem -s2 | cut -d' ' -f1,6-))
+# fichier2 : les rdv à venir seulement jusqu'à M+2
+fichier2=(`rem -s2 | cut -d' ' -f1,6- | awk -F' ' -v date="$(date +"%Y/%m/%d")" '{if (date<=$1) {print}} '`)
+today=$(date +"%Y/%m/%d")
+IFS=$oldIFS
+
+for i in "${fichier2[@]}"
+do
+	if echo "$i" | grep -q "$today"; then
+		echo -e "<span color='#80FF00'>"$i"</span>"
+	else
+# 		: # do nothing
+		echo "$i"
+	fi
+done

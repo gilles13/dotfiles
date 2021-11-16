@@ -1,0 +1,8 @@
+#!/bin/env sh
+
+# https://unix.stackexchange.com/questions/28803/how-can-i-reduce-a-videos-size-with-ffmpeg
+
+INPUT=$1
+OUTPUT=$2
+
+ffmpeg -i $1 -threads auto -c:v libx265 -c:a libvorbis -s 854x480 -crf 24 ~/$2

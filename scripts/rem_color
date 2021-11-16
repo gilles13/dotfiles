@@ -1,0 +1,20 @@
+#!/bin/env sh
+
+oldIFS=$IFS
+IFS=$'\n'
+fichier=(`rem -ga | tail -n +3`)
+# -g : sort remind by date and time
+# -a : sort ascending
+today=$(date +"%Y/%m/%d")
+IFS=$oldIFS
+
+for i in "${fichier[@]}"
+do
+	if echo "$i" | grep -q "today"; then
+		echo -e "<b><span color='#ffff00'>"$i"</span></b>" |sed -e 's/today/aujourdhui/g' -e 's/ at / à /g'
+	elif echo "$i" | grep -q "tomorrow"; then
+		echo -e "<span color='#00ff00'>"$i"</span>" |sed 's/tomorrow/demain/g'
+	else
+		echo "$i" | sed -e 's/days.* time/jours/g' -e 's/ in / dans /g'
+	fi
+done

@@ -1,0 +1,9 @@
+# vim: ft=conf
+
+PORTABLESCREEN="$(xrandr | grep -e " connected [^(]" | awk '{print NR-0,$1}' | sed -n 1p | cut -d" " -f2)"
+OTHERSCREEN="$(xrandr | grep -e " connected [^(]" | awk '{print NR-0,$1}' | sed -n 2p | cut -d" " -f2)"
+
+xrandr --output $OTHERSCREEN --mode 1920x1080
+xrandr --output $PORTABLESCREEN --off
+
+sh ~/.fehbg

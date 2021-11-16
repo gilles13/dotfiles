@@ -1,0 +1,14 @@
+#!/bin/env sh
+
+# backup de la clé usb dans ~/backups/
+
+command -v rsync >/dev/null 2>&1 || exit
+
+# -n --dry-run (essai de la commande, ne sync pas)
+# rsync -avn --delete /media/usb1/insee/ ~/backups/insee/
+rsync -av --delete /media/usb1/insee/ ~/backups/insee/
+rsync -av --delete /media/usb1/scripts/ ~/backups/scripts/
+rsync -av --delete /media/usb1/r/ ~/backups/r/
+rsync -av --delete /media/usb1/dotfiles/ ~/backups/dotfiles/
+rsync -av --delete /media/usb1/refcard_gilles/ ~/backups/refcard_gilles/
+rsync -av --delete /media/usb1/unix/ ~/backups/unix/

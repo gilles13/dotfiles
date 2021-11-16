@@ -1,0 +1,12 @@
+#!/bin/env sh
+
+# echo $TOREACH
+# date -u -d @${TOREACH} +"%T"
+# date -u -d @${TOREACH} +%H:%M:%S
+
+TOREACH=$1
+
+for i in `seq $TOREACH -1 0`; do
+	notify-send "TIMER" "<span font='Monospace 14'>`date -u -d @${i} +"%T"`</span>" -h string:x-canonical-private-synchronous:my-notification
+	sleep 1
+done

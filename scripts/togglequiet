@@ -1,0 +1,10 @@
+#!/bin/env sh
+
+pic=$(cat ~/.fehbg | sed -e '1d' | cut -d \' -f2)
+
+if [[ $pic == *"black"* ]]; then
+# 	feh --bg-max /home/gilles/wallpapers/asian-japan-digital-art-4k-sw.jpg
+	/home/gilles/scripts/changewall
+elif [[ $pic != *"black"* ]]; then
+	feh --bg-max /home/gilles/wallpapers/black.png
+fi

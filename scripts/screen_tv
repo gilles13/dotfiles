@@ -1,0 +1,2 @@
+xrandr --output HDMI-1 --mode 1280x720
+pactl set-card-profile 0 output:hdmi-surround71
