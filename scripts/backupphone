@@ -8,7 +8,7 @@
 command -v rsync >/dev/null 2>&1 || exit
 
 if ! grep -qs '/media/phone ' /proc/mounts;then
-	echo "Le téléphone n'est pas montée" && exit
+	echo "Le téléphone n'est pas monté" && exit
 else
 # 	--exclude=vim/.vim/ \
 	rsync -rltuv -zz '/media/phone/Mémoire de stockage interne/DCIM/Camera' ~/backups/phone/
