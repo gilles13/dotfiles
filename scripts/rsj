@@ -1,0 +1,14 @@
+#!/bin/env sh
+# rsj : radio swiss jazz
+# https://www.radioswissjazz.ch/fr
+# http://stream.srg-ssr.ch/m/rsj/mp3_128
+
+command -v mpv >/dev/null 2>&1 || exit
+
+# ! pgrep -x mocp >/dev/null && echo "moc not running." && exit
+# ! pgrep -x mocp >/dev/null && echo "moc not running." || echo "moc is running"
+
+! pgrep -x mocp >/dev/null && mocp -S
+mocp -c
+mocp -a "http://stream.srg-ssr.ch/m/rsj/mp3_128"
+mocp -p
