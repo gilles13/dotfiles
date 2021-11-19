@@ -1,37 +1,27 @@
 " Vim config Gilles
+" http://learnvimscriptthehardway.stevelosh.com/
+" http://www.moolenaar.net/habits.html
 
 set nocompatible                " annule compatibilité avec vi
-
 filetype off  									" requis par Vundle
 
 " Plugins management (Vundle) --- {{{
-" à faire avant tout :
-" git clone https://github.com/VundleVim/Vundle.vim.git  ~/.vim/bundle/Vundle.vim
-
-" set the runtime path to include Vundle and initialize
+" require : git clone https://github.com/VundleVim/Vundle.vim.git  ~/.vim/bundle/Vundle.vim
+" set runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-
-" Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'epeli/slimux'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'jalvesaq/Nvim-R'
+Plugin 'jalvesaq/vimcmdline'
 Plugin 'junegunn/fzf.vim'
-" Plugin 'jpalardy/vim-slime'
-" Plugin 'gaalcaras/ncm-R'
-" Plugin 'honza/vim-snippets'
-" Plugin 'kshenoy/vim-signature'
+" Plugin 'jupyter-vim/jupyter-vim'
+Plugin 'goerz/jupytext'
 Plugin 'SirVer/ultisnips'
-" Plugin 'sukima/xmledit'
-" Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
-Plugin 'vim-airline/vim-airline'
-" Plugin 'vim-syntastic/syntastic'
 Plugin 'VundleVim/Vundle.vim'
-" Plugin 'yggdroot/indentline'
-" Plugin 'w0rp/ale'
-
+Plugin 'vim-airline/vim-airline'
 call vundle#end()
 " }}}
 
@@ -40,11 +30,10 @@ filetype on                     " active la détection automatique de fichier
 filetype plugin on              " active les plugins lors de la détection auto des fichiers
 filetype indent on              " indentation auto en fonction du type de fichier
 syntax enable                   " active la coloration syntaxique
-
 set clipboard=unnamed						" copie depuis clipboard et non primary
 set mouse=a                     " allow mouse mouvement in vim
 set laststatus=2                " display status line always
-set noshowmode									" enlever la ligne INSERTION / VISUAL / ...
+" set noshowmode									" enlever la ligne INSERTION / VISUAL / etc
 set wildmenu                    " command line completion
 set wildmode=list:longest,full  " command line completion
 set relativenumber							" numeros de ligne relatifs
@@ -72,6 +61,7 @@ set modeline										" active la fonctionalité modeline
 set modelines=4									" lire les modelines dans les 4 premières lignes
 set nofoldenable								" ne ferme pas les folds lors de chgment de buffer
 set omnifunc=syntaxcomplete#Complete            " activer l'auto completion
+colorscheme desertEx	          " couleur theme
 " }}}
 
 " Persistent undo --- {{{
@@ -81,151 +71,123 @@ set undolevels=1000         		" How many undos
 set undoreload=10000        		" number of lines to save for undo
 " }}}
 
-" Astyle --- {{{
-" sudo pacman -Sy astyle
-" set equalprg=/user/bin/astyle\ --style=google
-" set formatprg=astyle
-" --mode=c --style=ansi -s2
-" set formatprg=astyle\ -T4pb
-" usage : gg gqG : format all file
-" usage : gg=G
-" https://stackoverflow.com/questions/2355834/how-can-i-autoformat-indent-c-code-in-vim
-" nnoremap <LocalLeader>as :!astyle --mode=c --style=ansi<CR>
-nnoremap <LocalLeader>as :!astyle --mode=java<CR>
-" }}}
-
-" Appearance --- {{{
-autocmd ColorScheme * highlight LineNr ctermbg=None
-autocmd ColorScheme * highlight LineNr ctermfg=None
-autocmd ColorScheme * highlight Normal ctermbg=None
-colorscheme desert256v2          " couleur theme
-" autocmd ColorScheme * highlight Title ctermbg=None
-" autocmd ColorScheme * highlight StatusLine ctermbg=None
-" }}}
-
-" " Statusline --- {{{
-" set statusline=
-" set statusline+=\[%n]                                  "buffernr
-" set statusline+=\ %<%F\                                "File+path
-" set statusline+=\ %y\                                  "FileType
-" set statusline+=\ %{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
-" set statusline+=\ %{(&bomb?\",BOM\":\"\")}\            "Encoding2
-" set statusline+=\ %{&ff}\                              "FileFormat (dos/unix..)
-" set statusline+=\ %{&spelllang}\  										 "Spellanguage & Highlight on?
-" set statusline+=\ %=\ row:%l/%L\ (%03p%%)\             "Rownumber/total (%)
-" set statusline+=\ col:%03c\                            "ColNumber
-" set statusline+=\ \ %m%r%w\ %P\ \                      "Modified? Readonly? Top/bot.
-" " }}}
-
 " Personnal keymaps --- {{{
-
-" Leader & LocalLeader
 let mapleader="\\"
 let maplocalleader=","
-
 inoremap ;; <Esc>
-nnoremap <F1> :w<CR>:make<CR>
-inoremap <F1> <esc>:w<CR>:make<CR>
-nnoremap <F2> :!pandoc % -s -o '%:r'.pdf<CR>
-set pastetoggle=<F3>
-nnoremap <F4> :!cat % \| iconv -c -f utf-8 -t ISO-8859-1 \| enscript -o - \| ps2pdf - '%:r'.pdf<CR>
+set pastetoggle=<F1>
+nnoremap <F2> :set relativenumber! number! showmode! showcmd! hidden! ruler!<CR>
+nnoremap <F3> :!pandoc -C "%:p" -o "%:r".pdf<CR>
 nnoremap œ :bn<CR>
 inoremap œ <Esc>:bn<CR>
 nnoremap Œ :bp<CR>
 inoremap Œ <Esc>:bp<CR>
+" ctrl k to appen line upper cursor
 nnoremap <C-k> :call append(line('.')-1, '')<CR>
+" ctrl j to append line under cursor
 nnoremap <C-j> :call append(line('.'), '')<CR>
-
-" Pair completion
+" pair completion
 inoremap {      {}<Left>
 inoremap {<CR>  {<CR>}<Esc>O
 inoremap {{     {
 inoremap {}     {}
 inoremap (  		()<Left>
 inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
-
-" Comments
+" comments
 noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
 noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
-
-nnoremap <LocalLeader>ev :e ~/dotfiles/vim/.vimrc<CR>
-nnoremap <LocalLeader>sv :source ~/dotfiles/vim/.vimrc<CR>:echo ".vimrc sourced!"<CR>
-nnoremap <LocalLeader>er :e ~/dotfiles/config/.config/ranger/rc.conf<CR>
-nnoremap <LocalLeader>ew :e ~/dwm/config.def.h<CR>
-nnoremap <LocalLeader>et :e ~/dotfiles/tmux/.tmux.conf<CR>
-nnoremap <LocalLeader>ed :e ~/dotfiles/config/.config/dunst/dunstrc<CR>
-" nnoremap <LocalLeader>ex :e ~/dotfiles/xresources/.Xresources.d/urxvt<CR>
-nnoremap <LocalLeader>ex :e ~/.xinitrc<CR>
-nnoremap <LocalLeader>sx :!xrdb ~/.Xresources<CR>
-nnoremap <LocalLeader>ep :e ~/dotfiles/config/.config/picom/picom.conf<CR>
-nnoremap <LocalLeader>ef :e ~/.sfeed/sfeedrc<CR>
-nnoremap <LocalLeader>ea :e ~/dotfiles/bash/.bash_aliases<CR>
-nnoremap <LocalLeader>ez :e ~/dotfiles/zsh/.zshrc<CR>
-nnoremap <LocalLeader>ca :e /media/usb1/unix/arch/01_config<CR>
+" edit dotfiles
+nnoremap <LocalLeader>ev :e ~/.vimrc<CR>
+nnoremap <LocalLeader>sv :source ~/.vimrc<CR>:echo ".vimrc sourced!"<CR>
 nnoremap <LocalLeader>eu :UltiSnipsEdit<CR>
-nnoremap <LocalLeader>Sw :w !sudo tee % >/dev/null<CR>
+" misc
 nnoremap <LocalLeader>u :!urlscan -n % \| dmenu -l 10 \| xargs firefox &<CR>
-
-" launch shiny app
-" https://www.howtoforge.com/tutorial/how-to-access-shell-or-run-external-commands-from-within-vim/
 nnoremap <localleader>nn :!R -e 'shiny::runApp("'%:p:h'", launch.browser=FALSE)'<CR>
-" nnoremap <localleader>nn :silent !R -e 'shiny::runApp("'%:p:h'", launch.browser=TRUE)'<CR>
-" nnoremap <localleader>nn :execute 'silent !R -e 'shiny::runApp("'%:p:h'", " launch.browser=TRUE) &'<CR>'
 
 " }}}
 
 " FileType specific settings --- {{{
-autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
-autocmd FileType sh,ruby,python   let b:comment_leader = '# '
-autocmd FileType conf,fstab       let b:comment_leader = '# '
-autocmd FileType tex,Rnw          let b:comment_leader = '% '
-autocmd FileType mail             let b:comment_leader = '> '
-autocmd FileType vim              let b:comment_leader = '" '
-autocmd FileType r                let b:comment_leader = '# '
-autocmd FileType xdefaults     		let b:comment_leader = '! '
-autocmd FileType sql			     		let b:comment_leader = '-- '
+autocmd FileType c,cpp,java,scala 			let b:comment_leader = '// '
+autocmd FileType sh,ruby,python,yml	   	let b:comment_leader = '# '
+autocmd FileType conf,fstab,make,cfg   	let b:comment_leader = '# '
+autocmd FileType tex,Rnw          			let b:comment_leader = '% '
+autocmd FileType mail             			let b:comment_leader = '> '
+autocmd FileType vim              			let b:comment_leader = '" '
+autocmd FileType r,md              			let b:comment_leader = '# '
+autocmd FileType xdefaults     					let b:comment_leader = '! '
+autocmd FileType sql			     					let b:comment_leader = '-- '
 
 " FileType vim tex sql r
 augroup fileType_vim_tex_sql_r
 	autocmd!
-	autocmd FileType vim,xdefaults,tex,sh setlocal foldmethod=marker
-augroup END
-
-" FileType xml html
-augroup fileType_xml
-	autocmd!
-	autocmd FileType xml,html setlocal foldmethod=syntax
+	autocmd FileType vim,xdefaults,tex,sh,r setlocal foldmethod=marker
 augroup END
 
 " }}}
 
 " Plugins config --- {{{
 
-" Nvim-r
-let R_in_buffer = 0
-let R_term = "urxvt"
-" let R_term_cmd = "urxvt -title monNvimR -e"
+" jupyter-vim --- {{{
+" let g:jupyter_mapkeys = 0
+" --- }}}
+
+" jupytext --- {{{
+let g:jupytext_enable = 1
+let g:jupytext_fmt = 'md'
+
+" --- }}}
+
+" Nvim-r --- {{{
+let R_external_term = 1
 let R_synctex = 0
-let R_show_args = 0
 let R_show_arg_help = 0
-let R_complete = 2
 let R_rconsole_width = 80
 let R_min_editor_width = 18
 let R_nvimpager = "tab"
 let R_pdfviewer = "zathura"
 let R_objbr_place = "script,below"
-" let_R_df_viewer = "utils::View(%s)"
+let R_set_omnifunc = ["r",  "rmd", "rnoweb", "rhelp", "rrst"]
+let R_auto_omni = ["r",  "rmd", "rnoweb", "rhelp", "rrst"]
 nnoremap <silent> <LocalLeader>h :call RAction("head")<CR>
 nnoremap <silent> <LocalLeader>v :call RAction("View")<CR>
+nnoremap <silent> <LocalLeader>mt :call RAction("tail")<CR>
+nnoremap <silent> <LocalLeader>md :call RAction("dim")<CR>
+" --- }}}
 
-" Slimux
+" vimcmdline --- {{{
+" let cmdline_vsplit = 1
+let cmdline_in_buffer = 0
+" let cmdline_external_term_cmd = "st %s &"
+let cmdline_external_term_cmd = "urxvt -e %s &"
+let cmdline_app           = {}
+let g:cmdline_app = {"python": "ipython"}
+let cmdline_tmux_conf = "~/.tmux.conf"
+let cmdline_map_start          = '<LocalLeader>pr'
+let cmdline_map_send           = '<Space>'
+let cmdline_map_send_and_stay  = '<LocalLeader><Space>'
+let cmdline_map_source_fun     = '<LocalLeader>f'
+let cmdline_map_send_paragraph = '<LocalLeader>p'
+let cmdline_map_send_block     = '<LocalLeader>b'
+let cmdline_map_send_motion    = '<LocalLeader>m'
+let cmdline_map_quit           = '<LocalLeader>q'
+" nnoremap <LocalLeader>pp viw:call VimCmdLineSendSelection()<CR>
+nnoremap <LocalLeader>pp :call VimCmdLineSendCmd(expand('<cword>'))<CR>
+nnoremap <LocalLeader>pi :call VimCmdLineSendCmd(expand('<cword>').".info()")<CR>
+nnoremap <LocalLeader>ph :call VimCmdLineSendCmd(expand('<cword>').".head()")<CR>
+nnoremap <LocalLeader>pt :call VimCmdLineSendCmd("type(".expand('<cword>').")")<CR>
+" autocmd FileType python nmap <buffer> <LocalLeader>pp :call VimCmdLineSendCmd(expand('<cword>'))<CR>
+" --- }}}
+
+" Slimux --- {{{
 let g:slimux_scheme_keybindings = 0
 nnoremap <LocalLeader>s :SlimuxREPLSendLine<CR>j
 inoremap <LocalLeader>s <Esc>:SlimuxREPLSendLine<CR>A
 vnoremap <LocalLeader>s :SlimuxREPLSendSelection<CR>
 nnoremap <LocalLeader>b :SlimuxREPLSendBuffer<CR>
 nnoremap <LocalLeader>c :SlimuxShellRun clear<CR>
+" --- }}}
 
+" vim-airline --- {{{
 " vim-airline
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#enabled = 1
@@ -245,71 +207,18 @@ let g:airline_symbols.branch = '⎇'
 " let g:airline_symbols.paste = 'Þ'
 " let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
+" --- }}}
 
-" UltiSnips
-" set runtimepath+=~/.vim/UltiSnips/
-let g:UltiSnipsSnippetsDir="/home/gilles/.vim/mysnips"
-let g:UltiSnipsSnippetDirectories=["/home/gilles/.vim/mysnips", "UltiSnips"]
+" UltiSnips --- {{{
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
+" --- }}}
 
 " fzf
 nnoremap <LocalLeader>f :FZF ~<CR>
 nnoremap <LocalLeader>fm :FZF /media/usb1/<CR>
-
-" }}}
-
-" " PEP8 python indentation --- {{{
-" au BufNewFile,BufRead *.py
-"     set tabstop=4
-"     set softtabstop=4
-"     set shiftwidth=4
-"     set textwidth=79
-"     set expandtab
-"     set autoindent
-"     set fileformat=unix
-" " --- }}}
-
-" vimteractive
-" https://github.com/williamjameshandley/vimteractive
-let g:vimteractive_default_shells = { 'python': 'ipython' }
-let g:vimteractive_vertical = 1
-
-" slime
-" https://github.com/jpalardy/vim-slime
-let g:slime_target = "tmux"
-let g:slime_python_ipython = 1
-let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
-let g:slime_dont_ask_default = 1
-xmap <LocalLeader>d <Plug>SlimeRegionSend
-nmap <LocalLeader>p <Plug>SlimeParagraphSend
-nmap <LocalLeader>d :SlimeSend<CR>j
-" xmap creates a mapping for just Visual mode whereas vmap creates one for both Visual mode and Select mode.
-
-" :nmap - Display normal mode maps
-" :imap - Display insert mode maps
-" :vmap - Display visual and select mode maps
-" :smap - Display select mode maps
-" :xmap - Display visual mode maps
-" :cmap - Display command-line mode maps
-" :omap - Display operator pending mode maps
-
-" Misc --- {{{
-
-" A lire
-" http://learnvimscriptthehardway.stevelosh.com/
-" http://www.moolenaar.net/habits.html
-
-" Twitvim
-" let twitvim_enable_perl = 1
-" let twitvim_browser_cmd = 'firefox'
-
-" Code Formatter/Beautifier
-" https://stackoverflow.com/questions/2506776/is-it-possible-to-format-c-code-with-vim
-" HOW TO : :%!astyle --mode=c --style=ansi -s2
-" HOW TO : :%!astyle -A2 -s4 -xc -xj -c
 
 " }}}
 
@@ -319,8 +228,6 @@ function! OpenURLUnderCursor()
 	let s:uri = expand('<cWORD>')
 	let s:uri = matchstr(s:uri, "[a-z]*:\/\/[^ >,;)'\"]*")
 	let s:uri = substitute(s:uri, '#', '\\#', '')
-	" let s:uri = substitute(s:uri, '?', '\\?', '')
-	" let s:uri = shellescape(s:uri, 1)
 	if s:uri != ''
 		silent exec "!xdg-open '".s:uri."' > /dev/null"
 		:redraw!
@@ -328,4 +235,3 @@ function! OpenURLUnderCursor()
 endfunction
 nnoremap gx :call OpenURLUnderCursor()<CR>
 " }}}
-
