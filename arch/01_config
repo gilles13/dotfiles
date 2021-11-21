@@ -52,7 +52,7 @@ pacman -Sy moc faad2 libmodplug libmpcdec taglib wavpack pulseaudio pulseaudio-a
 pacman -Sy sxiv feh imagemagick
 
 ## misc
-pacman -Sy bluez-utils
+pacman -Sy bluez-utils dateutils
 
 ## terminal
 cd ~
